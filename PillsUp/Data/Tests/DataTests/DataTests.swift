@@ -1,7 +1,7 @@
 import XCTest
-@testable import Repository
+@testable import Data
 
-final class RepositoryTests: XCTestCase {
+final class DataTests: XCTestCase {
     func testExample() throws {
         // XCTest Documentation
         // https://developer.apple.com/documentation/xctest
