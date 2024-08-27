@@ -50,11 +50,11 @@
 		08C7A9692C7CA28D000A339D /* PillsUpUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PillsUpUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		08C7A96D2C7CA28D000A339D /* PillsUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsUpUITests.swift; sourceTree = "<group>"; };
 		08C7A96F2C7CA28D000A339D /* PillsUpUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsUpUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		08C7A97C2C7CA54F000A339D /* Repository */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Repository; sourceTree = "<group>"; };
 		08C7A97D2C7CA58E000A339D /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
 		08C7A97E2C7CA5A7000A339D /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
 		08C7A97F2C7CA5B7000A339D /* Shared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Shared; sourceTree = "<group>"; };
 		08C7A9802C7CA640000A339D /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
+		93EBA0532C7D633E009FAEA4 /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,11 +86,11 @@
 		08C7A9402C7CA28C000A339D = {
 			isa = PBXGroup;
 			children = (
+				93EBA0532C7D633E009FAEA4 /* Data */,
 				08C7A9802C7CA640000A339D /* Features */,
 				08C7A97F2C7CA5B7000A339D /* Shared */,
 				08C7A97E2C7CA5A7000A339D /* Network */,
 				08C7A97D2C7CA58E000A339D /* Domain */,
-				08C7A97C2C7CA54F000A339D /* Repository */,
 				08C7A94B2C7CA28C000A339D /* PillsUp */,
 				08C7A9622C7CA28D000A339D /* PillsUpTests */,
 				08C7A96C2C7CA28D000A339D /* PillsUpUITests */,
