@@ -6,6 +6,12 @@
 # 📚 프로젝트 구조
 ![PillsUp_Package drawio](https://github.com/user-attachments/assets/fec34211-b994-42f3-9987-08383ba68746)
 
+- **Feature:** 앱의 특정 기능 또는 화면을 독립적으로 구현한 모듈입니다.
+- **Data:** Remote, Local에서 데이터를 가져오거나 저장하는 모듈입니다.
+- **Network:** Network 통신을 위한 모듈입니다.
+- **Domain:** 핵심 비지니스 규칙을 담당하는 모듈입니다.
+- **Shared:** 앱 전반에 걸쳐 모든 계층에서 공통적으로 사용하는 코드를 포함한 모듈입니다.
+
 <br>
 
 # 🎯 프로젝트 목표
