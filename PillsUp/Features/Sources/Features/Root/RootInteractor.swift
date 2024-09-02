@@ -7,20 +7,20 @@
 
 import ModernRIBs
 
-protocol RootRouting: ViewableRouting {
+public protocol RootRouting: ViewableRouting {
     // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
 }
 
-protocol RootPresentable: Presentable {
+public protocol RootPresentable: Presentable {
     var listener: RootPresentableListener? { get set }
     // TODO: Declare methods the interactor can invoke the presenter to present data.
 }
 
-protocol RootListener: AnyObject {
+public protocol RootListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
-final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
+public final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable, RootPresentableListener {
 
     weak var router: RootRouting?
     weak var listener: RootListener?
@@ -32,12 +32,12 @@ final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteract
         presenter.listener = self
     }
 
-    override func didBecomeActive() {
+    public override func didBecomeActive() {
         super.didBecomeActive()
         // TODO: Implement business logic here.
     }
 
-    override func willResignActive() {
+    public override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
     }

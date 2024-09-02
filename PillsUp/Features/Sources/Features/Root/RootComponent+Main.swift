@@ -6,3 +6,9 @@
 //
 
 import Foundation
+import ModernRIBs
+
+protocol RootDependencyMain: Dependency { }
+
+extension RootComponent: MainDependency { }
+

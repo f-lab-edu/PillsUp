@@ -34,6 +34,7 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
         let viewController = MainViewController()
         let interactor = MainInteractor(presenter: viewController)
         interactor.listener = listener
+        
         return MainRouter(interactor: interactor, viewController: viewController)
     }
 }
