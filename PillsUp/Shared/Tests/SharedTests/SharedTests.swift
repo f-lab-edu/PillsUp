@@ -3,10 +3,6 @@ import XCTest
 
 final class SharedTests: XCTestCase {
     func testExample() throws {
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
-
-        // Defining Test Cases and Test Methods
-        // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
+        // TODO: - Test Code 작성 예정
     }
 }
