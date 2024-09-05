@@ -35,9 +35,11 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         
         addSubViews()
         makeLayout()
+        addActions()
     }
 }
 
+// MARK: - General Functions
 extension MainViewController {
     private func addSubViews() {
         view.addSubview(distanceButton)
@@ -50,5 +52,24 @@ extension MainViewController {
             make.top.equalTo(view.safeAreaLayoutGuide).inset(8)
             make.right.equalToSuperview().inset(16)
         }
+    }
+    
+    private func addActions() {
+        distanceButton.addAction(UIAction(handler: { [weak self] _ in
+            let viewController = DistancePickerViewController()
+            viewController.modalPresentationStyle = .overCurrentContext
+            viewController.delegate = self
+            viewController.currentDistance = 200
+            
+            self?.present(viewController, animated: true)
+        }), for: .touchUpInside)
+    }
+}
+
+// MARK: - DistanceDelegate
+extension MainViewController: DistanceDelegate {
+    func didSelectDistance(_ distance: Int) {
+        self.dismiss(animated: false)
+        print(distance)
     }
 }
