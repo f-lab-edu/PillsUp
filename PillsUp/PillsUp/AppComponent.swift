@@ -7,10 +7,21 @@
 
 import ModernRIBs
 import Features
+import Domain
+import Data
 
-class AppComponent: Component<EmptyDependency>, RootDependency {
+protocol AppDependency: Dependency {
+    var distanceSettingUseCase: DistanceSettingUseCase { get }
+}
+
+final class AppComponent: Component<EmptyDependency>, AppDependency {
+    let distanceSettingUseCase: DistanceSettingUseCase
 
     init() {
+        self.distanceSettingUseCase = DistanceSetting(
+            appDataRepository: DefaultAppDataRepostitory()
+        )
+
         super.init(dependency: EmptyComponent())
     }
 }

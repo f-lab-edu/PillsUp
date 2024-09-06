@@ -9,14 +9,19 @@ import ModernRIBs
 import UIKit
 import SnapKit
 import Then
+import Combine
 
 protocol MainPresentableListener: AnyObject {
-    
+    func saveDistance(_ distance: Int)
+    func viewLoaded()
 }
 
 final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
 
     weak var listener: MainPresentableListener?
+    var currentDistanceSubject = PassthroughSubject<Int, Never>()
+    
+    private var cancellable = Set<AnyCancellable>()
     
     private let distanceButton = UIButton(type: .system).then {
         $0.setTitle("500m", for: .normal)
@@ -28,6 +33,7 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+        listener?.viewLoaded()
     }
     
     private func setup() {
@@ -36,6 +42,15 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         addSubViews()
         makeLayout()
         addActions()
+        setSubscribe()
+    }
+    
+    func setSubscribe() {
+        currentDistanceSubject
+            .sink { [weak self] distance in
+                self?.distanceButton.setTitle("\(distance)m", for: .normal)
+            }
+            .store(in: &cancellable)
     }
 }
 
@@ -59,7 +74,6 @@ extension MainViewController {
             let viewController = DistancePickerViewController()
             viewController.modalPresentationStyle = .overCurrentContext
             viewController.delegate = self
-            viewController.currentDistance = 200
             
             self?.present(viewController, animated: true)
         }), for: .touchUpInside)
@@ -70,6 +84,6 @@ extension MainViewController {
 extension MainViewController: DistanceDelegate {
     func didSelectDistance(_ distance: Int) {
         self.dismiss(animated: false)
-        print(distance)
+        listener?.saveDistance(distance)
     }
 }

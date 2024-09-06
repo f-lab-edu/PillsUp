@@ -7,6 +7,7 @@
 
 import Foundation
 import ModernRIBs
+import Domain
 
 protocol RootDependencyMain: Dependency { }
 
