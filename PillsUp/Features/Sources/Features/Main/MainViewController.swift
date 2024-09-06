@@ -20,6 +20,7 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
 
     weak var listener: MainPresentableListener?
     var currentDistanceSubject = PassthroughSubject<Int, Never>()
+    private var currentDistance: Int?
     
     private var cancellable = Set<AnyCancellable>()
     
@@ -49,6 +50,7 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         currentDistanceSubject
             .sink { [weak self] distance in
                 self?.distanceButton.setTitle("\(distance)m", for: .normal)
+                self?.currentDistance = distance
             }
             .store(in: &cancellable)
     }
@@ -74,6 +76,10 @@ extension MainViewController {
             let viewController = DistancePickerViewController()
             viewController.modalPresentationStyle = .overCurrentContext
             viewController.delegate = self
+            
+            if let currentDistance = self?.currentDistance {
+                viewController.currentDistance = currentDistance
+            }
             
             self?.present(viewController, animated: true)
         }), for: .touchUpInside)

@@ -43,6 +43,8 @@ final class DistancePickerViewController: UIViewController {
             pickerView.selectRow(row, inComponent: 0, animated: true)
         }
         
+        selectedDistance = currentDistance
+        
         addSubViews()
         makeLayout()
         addActions()
