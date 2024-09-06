@@ -52,7 +52,11 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     }
     
     func saveDistance(_ distance: Int) {
-        distanceUseCase.save(distance)
-        presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
+        do {
+            try distanceUseCase.save(distance)
+            presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
+        } catch {
+            // TODO: 에러처리
+        }
     }
 }
