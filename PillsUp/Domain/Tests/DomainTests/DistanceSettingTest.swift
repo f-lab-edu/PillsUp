@@ -11,18 +11,20 @@ import XCTest
 final class DistanceSettingTest: XCTestCase {
     
     private var distanceSettingUseCase: DistanceSettingUseCase!
-    private var mockAppDataRepository: AppDataRepository!
+    private var mockAppDataRepository: DistanceSettingRepository!
     
     override func setUpWithError() throws {
         mockAppDataRepository = MockAppDataRepository()
-        distanceSettingUseCase = DistanceSetting(appDataRepository: mockAppDataRepository)
+        distanceSettingUseCase = DistanceSetting(
+            distanceRepository: mockAppDataRepository
+        )
     }
     
     func test_500초과거리입력() {
         XCTAssertThrowsError(try distanceSettingUseCase.save(600)) { error in
             XCTAssertEqual(
                 error as? DistanceSettingError,
-                .distanceTooLarge
+                .tooLarge
             )
         }
     }
@@ -31,7 +33,7 @@ final class DistanceSettingTest: XCTestCase {
         XCTAssertThrowsError(try distanceSettingUseCase.save(99)) { error in
             XCTAssertEqual(
                 error as? DistanceSettingError,
-                .distanceTooSmall
+                .tooSmall
             )
         }
     }
@@ -40,7 +42,7 @@ final class DistanceSettingTest: XCTestCase {
         XCTAssertThrowsError(try distanceSettingUseCase.save(250)) { error in
             XCTAssertEqual(
                 error as? DistanceSettingError,
-                .distanceNotMultipleOfHundred
+                .roundFigure
             )
         }
     }

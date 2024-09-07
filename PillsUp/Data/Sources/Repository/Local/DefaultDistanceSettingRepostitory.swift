@@ -7,14 +7,14 @@
 
 import Domain
 
-public struct DefaultAppDataRepostitory: AppDataRepository {
+public struct DefaultDistanceSettingRepostitory: DistanceSettingRepository {
     public init() { }
     
-    public func getDistance() -> Int {
+    public func retrieve() -> Int {
         AppData.distance
     }
     
-    public func setDistance(_ distance: Int) {
+    public func save(_ distance: Int) {
         AppData.distance = distance
     }
 }

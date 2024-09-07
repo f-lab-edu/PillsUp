@@ -19,7 +19,7 @@ final class AppComponent: Component<EmptyDependency>, AppDependency {
 
     init() {
         self.distanceSettingUseCase = DistanceSetting(
-            appDataRepository: DefaultAppDataRepostitory()
+            distanceRepository: DefaultDistanceSettingRepostitory()
         )
 
         super.init(dependency: EmptyComponent())

@@ -8,9 +8,9 @@
 import Foundation
 
 enum DistanceSettingError: Error {
-    case distanceTooSmall // 100m 미만일 때
-    case distanceTooLarge // 500m 초과일 때
-    case distanceNotMultipleOfHundred // 100단위로 끊어지지 않을 때
+    case tooSmall // 100m 미만일 때
+    case tooLarge // 500m 초과일 때
+    case roundFigure // 100단위로 끊어지지 않을 때
 }
 
 public protocol DistanceSettingUseCase {
@@ -20,24 +20,24 @@ public protocol DistanceSettingUseCase {
 
 public struct DistanceSetting: DistanceSettingUseCase {
     
-    private let appDataRepository: AppDataRepository
+    private let distanceRepository: DistanceSettingRepository
     
-    public init(appDataRepository: AppDataRepository) {
-        self.appDataRepository = appDataRepository
+    public init(distanceRepository: DistanceSettingRepository) {
+        self.distanceRepository = distanceRepository
     }
     
     public func retrieve() -> Int {
-        appDataRepository.getDistance()
+        distanceRepository.retrieve()
     }
     
     public func save(_ distance: Int) throws {
         if distance < 100 {
-            throw DistanceSettingError.distanceTooSmall
+            throw DistanceSettingError.tooSmall
         } else if distance > 500 {
-            throw DistanceSettingError.distanceTooLarge
+            throw DistanceSettingError.tooLarge
         } else if distance % 100 != 0 {
-            throw DistanceSettingError.distanceNotMultipleOfHundred
+            throw DistanceSettingError.roundFigure
         }
-        appDataRepository.setDistance(distance)
+        distanceRepository.save(distance)
     }
 }
