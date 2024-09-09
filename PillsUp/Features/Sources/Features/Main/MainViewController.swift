@@ -38,8 +38,7 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
     }
     
     private func setup() {
-        view.backgroundColor = .white
-        
+        configuration()
         addSubViews()
         makeLayout()
         addActions()
@@ -58,6 +57,11 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
 
 // MARK: - General Functions
 extension MainViewController {
+    
+    private func configuration() {
+        view.backgroundColor = .white
+    }
+    
     private func addSubViews() {
         view.addSubview(distanceButton)
     }

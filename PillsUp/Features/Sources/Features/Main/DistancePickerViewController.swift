@@ -34,6 +34,16 @@ final class DistancePickerViewController: UIViewController {
     }
     
     private func setup() {
+        configuration()
+        addSubViews()
+        makeLayout()
+        addActions()
+    }
+}
+
+// MARK: - General Functions
+extension DistancePickerViewController {
+    private func configuration() {
         view.backgroundColor = .gray.withAlphaComponent(0.9)
         
         pickerView.delegate = self
@@ -44,15 +54,8 @@ final class DistancePickerViewController: UIViewController {
         }
         
         selectedDistance = currentDistance
-        
-        addSubViews()
-        makeLayout()
-        addActions()
     }
-}
-
-// MARK: - General Functions
-extension DistancePickerViewController {
+    
     private func addSubViews() {
         view.addSubview(confirmButton)
         view.addSubview(pickerView)
