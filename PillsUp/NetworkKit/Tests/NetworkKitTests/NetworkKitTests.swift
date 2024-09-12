@@ -1,7 +1,7 @@
 import XCTest
-@testable import Network
+@testable import NetworkKit
 
-final class NetworkTests: XCTestCase {
+final class NetworkKitTests: XCTestCase {
     func testExample() throws {
         // TODO: - Test Code 작성 예정
     }

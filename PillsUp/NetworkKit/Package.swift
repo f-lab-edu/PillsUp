@@ -4,25 +4,24 @@
 import PackageDescription
 
 let package = Package(
-    name: "Data",
+    name: "NetworkKit",
     products: [
         .library(
-            name: "Data",
-            targets: ["Data"]),
+            name: "NetworkKit",
+            targets: ["NetworkKit"]),
     ],
     dependencies: [
-        .package(path: "../NetworkKit"),
+        .package(path: "../Domain")
     ],
     targets: [
         .target(
-            name: "Data",
+            name: "NetworkKit",
             dependencies: [
-                .product(name: "NetworkKit", package: "NetworkKit"),
+                .product(name: "Domain", package: "Domain")
             ]
         ),
         .testTarget(
-            name: "DataTests",
-            dependencies: ["Data"]),
+            name: "NetworkKitTests",
+            dependencies: ["NetworkKit"]),
     ]
 )
-

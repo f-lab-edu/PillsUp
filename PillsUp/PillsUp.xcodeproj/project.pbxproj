@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0810F1AC2C931D8300A5B389 /* NetworkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 0810F1AB2C931D8300A5B389 /* NetworkKit */; };
 		084696682C85F8C300AFF0C1 /* AppComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 084696672C85F8C300AFF0C1 /* AppComponent.swift */; };
 		08AC45912C85FA5C00569FDC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08AC45902C85FA5C00569FDC /* SnapKit */; };
 		08AC45932C85FA8100569FDC /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 08AC45922C85FA8100569FDC /* Data */; };
@@ -42,6 +43,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0810F1AA2C931C7A00A5B389 /* NetworkKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkKit; sourceTree = "<group>"; };
 		084696672C85F8C300AFF0C1 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		08AC45B12C89D4CA00569FDC /* AppComponent+Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppComponent+Root.swift"; sourceTree = "<group>"; };
 		08C7A9492C7CA28C000A339D /* PillsUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PillsUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -56,7 +58,6 @@
 		08C7A96D2C7CA28D000A339D /* PillsUpUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsUpUITests.swift; sourceTree = "<group>"; };
 		08C7A96F2C7CA28D000A339D /* PillsUpUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PillsUpUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		08C7A97D2C7CA58E000A339D /* Domain */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Domain; sourceTree = "<group>"; };
-		08C7A97E2C7CA5A7000A339D /* Network */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Network; sourceTree = "<group>"; };
 		08C7A97F2C7CA5B7000A339D /* Shared */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Shared; sourceTree = "<group>"; };
 		08C7A9802C7CA640000A339D /* Features */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Features; sourceTree = "<group>"; };
 		93EBA0532C7D633E009FAEA4 /* Data */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Data; sourceTree = "<group>"; };
@@ -68,6 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08AC45972C85FA8100569FDC /* Shared in Frameworks */,
+				0810F1AC2C931D8300A5B389 /* NetworkKit in Frameworks */,
 				08AC459A2C85FA9700569FDC /* Then in Frameworks */,
 				08C7A9842C7CA80B000A339D /* ModernRIBs in Frameworks */,
 				08AC45912C85FA5C00569FDC /* SnapKit in Frameworks */,
@@ -103,10 +105,10 @@
 		08C7A9402C7CA28C000A339D = {
 			isa = PBXGroup;
 			children = (
+				0810F1AA2C931C7A00A5B389 /* NetworkKit */,
 				93EBA0532C7D633E009FAEA4 /* Data */,
 				08C7A9802C7CA640000A339D /* Features */,
 				08C7A97F2C7CA5B7000A339D /* Shared */,
-				08C7A97E2C7CA5A7000A339D /* Network */,
 				08C7A97D2C7CA58E000A339D /* Domain */,
 				08C7A94B2C7CA28C000A339D /* PillsUp */,
 				08C7A9622C7CA28D000A339D /* PillsUpTests */,
@@ -180,6 +182,7 @@
 				08AC45942C85FA8100569FDC /* Features */,
 				08AC45962C85FA8100569FDC /* Shared */,
 				08AC45992C85FA9700569FDC /* Then */,
+				0810F1AB2C931D8300A5B389 /* NetworkKit */,
 			);
 			productName = PillsUp;
 			productReference = 08C7A9492C7CA28C000A339D /* PillsUp.app */;
@@ -678,6 +681,10 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		0810F1AB2C931D8300A5B389 /* NetworkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = NetworkKit;
+		};
 		08AC45902C85FA5C00569FDC /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 08C7A9812C7CA7BC000A339D /* XCRemoteSwiftPackageReference "SnapKit" */;
