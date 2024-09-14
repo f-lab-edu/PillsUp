@@ -14,7 +14,7 @@ public struct PharmacyRequestDTO: Encodable {
     let longitude: Double
     
     enum CodingKeys: String, CodingKey {
-//        case serviceKey
+        case serviceKey
         case latitude = "WGS84_LAT"
         case longitude = "WGS84_LON"
     }

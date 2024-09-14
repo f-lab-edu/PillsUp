@@ -34,13 +34,18 @@ enum PharmacyType {
 
 extension PharmacyType: TargetType {
     var baseURL: URL {
-        return Configuration.baseUrl
+        switch self {
+        case .getNearbyPlaces(let request):
+            return URL(
+                string: "https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire?serviceKey=\(request.serviceKey)&WGS84_LAT=\(request.latitude)&WGS84_LON=\(request.longitude)"
+            )!
+        }
     }
     
     var path: String {
         switch self {
         case .getNearbyPlaces:
-            return "/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire"
+            return ""
         }
     }
     
@@ -50,10 +55,8 @@ extension PharmacyType: TargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getNearbyPlaces(let request):
-            guard var query = request.asDictionary() else { return .requestPlain }
-            query["serviceKey"] = "GdV6w9ttF1gQeOqShASaVgndIY4%2Fv1vT4QCAe0L1VHj7MjBwOv2I9TKmjZ56eh5keGMEHjEOGpFt5iasmTrkjQ%3D%3D"
-            return .requestParameters(parameters: query, encoding: URLEncoding.default)
+        case .getNearbyPlaces:
+            return .requestPlain
             
         }
     }
