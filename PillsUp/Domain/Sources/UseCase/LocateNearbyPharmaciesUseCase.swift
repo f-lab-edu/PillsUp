@@ -8,7 +8,7 @@
 import Foundation
 
 public protocol LocateNearbyPharmaciesUseCase {
-    func retrieve() async throws -> Pharmacy
+    func retrieve(_ request: Location) async throws -> PharmacyResponse
 }
 
 public struct LocateNearbyPharmacies: LocateNearbyPharmaciesUseCase {
@@ -18,7 +18,7 @@ public struct LocateNearbyPharmacies: LocateNearbyPharmaciesUseCase {
         self.repository = repository
     }
     
-    public func retrieve() async throws -> Pharmacy {
-        try await repository.retrieveNearbyData()
+    public func retrieve(_ request: Location) async throws -> PharmacyResponse {
+        try await repository.retrieveNearbyData(request)
     }
 }
