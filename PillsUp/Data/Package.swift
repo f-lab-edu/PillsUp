@@ -5,21 +5,20 @@ import PackageDescription
 
 let package = Package(
     name: "Data",
+    platforms: [.iOS(.v15)],
     products: [
         .library(
             name: "Data",
             targets: ["Data"]),
     ],
     dependencies: [
-        .package(path: "../Network"),
-        .package(path: "../Domain")
+        .package(path: "../NetworkKit"),
     ],
     targets: [
         .target(
             name: "Data",
             dependencies: [
-                .product(name: "Network", package: "Network"),
-                .product(name: "Domain", package: "Domain")
+                .product(name: "NetworkKit", package: "NetworkKit"),
             ]
         ),
         .testTarget(
