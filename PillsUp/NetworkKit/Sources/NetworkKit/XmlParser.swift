@@ -8,14 +8,16 @@
 import Foundation
 
 final class XmlParser: NSObject, XMLParserDelegate {
+    typealias ItemTypes = [String: Any]
+    
     private var currentElement = ""
     private var currentValue: String?
     
-    private var currentItem: [String: Any]?
-    private var items = [[String: Any]]()
+    private var currentItem: ItemTypes?
+    private var items = [ItemTypes]()
     
     private var isParsingBody = false
-    private var bodyData = [String: Any]()
+    private var bodyData = ItemTypes()
     
     // XMLParser의 델리게이트 메서드 호출 시작
     func parse(data: Data) -> [String: Any] {
@@ -31,7 +33,7 @@ final class XmlParser: NSObject, XMLParserDelegate {
         didStartElement elementName: String,
         namespaceURI: String?,
         qualifiedName qName: String?,
-        attributes attributeDict: [String : String] = [:]
+        attributes attributeDict: [String: String] = [:]
     ) {
         currentElement = elementName
         currentValue = ""

@@ -18,8 +18,8 @@ public struct DefaultPharmacyRepository: PharmacyRepository {
     
     public func retrieveNearbyData(_ request: Location) async throws -> PharmacyResponse {
         let requestDTO = PharmacyRequestDTO(
-            latitude: request.latitude,
-            longitude: request.longitude
+            lat: request.lat,
+            lng: request.lng
         )
         
         return try await dataSource.getNearbyPlaces(requestDTO).toDomain()

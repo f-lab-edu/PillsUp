@@ -13,6 +13,7 @@
 		086C3A4C2C94555C003890A1 /* CombineMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 086C3A4B2C94555C003890A1 /* CombineMoya */; };
 		086C3A4E2C94555C003890A1 /* ReactiveMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 086C3A4D2C94555C003890A1 /* ReactiveMoya */; };
 		086C3A502C94555C003890A1 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 086C3A4F2C94555C003890A1 /* RxMoya */; };
+		086C3A552C97283E003890A1 /* Configuration.plist in Resources */ = {isa = PBXBuildFile; fileRef = 086C3A542C9726FE003890A1 /* Configuration.plist */; };
 		08AC45912C85FA5C00569FDC /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 08AC45902C85FA5C00569FDC /* SnapKit */; };
 		08AC45932C85FA8100569FDC /* Data in Frameworks */ = {isa = PBXBuildFile; productRef = 08AC45922C85FA8100569FDC /* Data */; };
 		08AC45952C85FA8100569FDC /* Features in Frameworks */ = {isa = PBXBuildFile; productRef = 08AC45942C85FA8100569FDC /* Features */; };
@@ -49,6 +50,7 @@
 /* Begin PBXFileReference section */
 		0810F1AA2C931C7A00A5B389 /* NetworkKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkKit; sourceTree = "<group>"; };
 		084696672C85F8C300AFF0C1 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
+		086C3A542C9726FE003890A1 /* Configuration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
 		08AC45B12C89D4CA00569FDC /* AppComponent+Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppComponent+Root.swift"; sourceTree = "<group>"; };
 		08C7A9492C7CA28C000A339D /* PillsUp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PillsUp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		08C7A94C2C7CA28C000A339D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -141,11 +143,12 @@
 			children = (
 				08C7A94C2C7CA28C000A339D /* AppDelegate.swift */,
 				08C7A94E2C7CA28C000A339D /* SceneDelegate.swift */,
-				08C7A9552C7CA28D000A339D /* Assets.xcassets */,
-				08C7A9572C7CA28D000A339D /* LaunchScreen.storyboard */,
-				08C7A95A2C7CA28D000A339D /* Info.plist */,
 				084696672C85F8C300AFF0C1 /* AppComponent.swift */,
 				08AC45B12C89D4CA00569FDC /* AppComponent+Root.swift */,
+				08C7A9552C7CA28D000A339D /* Assets.xcassets */,
+				08C7A9572C7CA28D000A339D /* LaunchScreen.storyboard */,
+				086C3A542C9726FE003890A1 /* Configuration.plist */,
+				08C7A95A2C7CA28D000A339D /* Info.plist */,
 			);
 			path = PillsUp;
 			sourceTree = "<group>";
@@ -290,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				086C3A552C97283E003890A1 /* Configuration.plist in Resources */,
 				08C7A9592C7CA28D000A339D /* LaunchScreen.storyboard in Resources */,
 				08C7A9562C7CA28D000A339D /* Assets.xcassets in Resources */,
 			);

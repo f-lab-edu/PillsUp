@@ -9,13 +9,11 @@ import Foundation
 import NetworkKit
 
 public struct PharmacyRequestDTO: Encodable {
-    let serviceKey: String = Configuration.serviceKey
-    let latitude: Double
-    let longitude: Double
+    let lat: Double
+    let lng: Double
     
     enum CodingKeys: String, CodingKey {
-        case serviceKey
-        case latitude = "WGS84_LAT"
-        case longitude = "WGS84_LON"
+        case lat = "WGS84_LAT"
+        case lng = "WGS84_LON"
     }
 }

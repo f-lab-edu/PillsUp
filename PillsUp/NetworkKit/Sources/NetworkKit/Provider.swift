@@ -12,7 +12,7 @@ public extension MoyaProvider {
     static func plain<T: TargetType>() -> MoyaProvider<T> {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 10
-        configuration.timeoutIntervalForRequest = 10
+        configuration.timeoutIntervalForResource = 10
         
         let session = Session(configuration: configuration)
         
