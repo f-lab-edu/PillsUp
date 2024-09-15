@@ -36,8 +36,11 @@ extension PharmacyType: TargetType {
     var baseURL: URL {
         switch self {
         case .getNearbyPlaces(let request):
+            let baseURL = Configuration.getConfiguration(.baseURL)
+            let serviceKey = Configuration.getConfiguration(.serviceKey)
+            
             return URL(
-                string: "https://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire?serviceKey=\(request.serviceKey)&WGS84_LAT=\(request.latitude)&WGS84_LON=\(request.longitude)"
+                string: "\(baseURL))/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire?serviceKey=\(serviceKey)&WGS84_LAT=\(request.lat)&WGS84_LON=\(request.lng)"
             )!
         }
     }
@@ -61,7 +64,7 @@ extension PharmacyType: TargetType {
         }
     }
     
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         return nil
     }
 }

@@ -8,11 +8,11 @@
 import Foundation
 
 public struct Location {
-    public let latitude: Double
-    public let longitude: Double
+    public let lat: Double
+    public let lng: Double
     
     public init(latitude: Double, longitude: Double) {
-        self.latitude = latitude
-        self.longitude = longitude
+        self.lat = latitude
+        self.lng = longitude
     }
 }
