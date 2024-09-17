@@ -36,11 +36,19 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         $0.layer.cornerRadius = 8
     }
     
+    private let refreshButton = UIButton(type: .system).then {
+        $0.setImage(UIImage(systemName: "arrow.clockwise"), for: .normal)
+        $0.tintColor = .white
+        $0.backgroundColor = .gray.withAlphaComponent(0.4)
+        $0.layer.cornerRadius = 8
+    }
+    
     // Map
     private let locationManager = CLLocationManager()
     private let mapView = MKMapView()
     private var trackingButton: MKUserTrackingButton?
     private var isMapInitialized = true
+    private var isRefesh = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -93,6 +101,7 @@ extension MainViewController {
     private func addSubViews() {
         view.addSubview(mapView)
         view.addSubview(distanceButton)
+        view.addSubview(refreshButton)
         view.addSubview(trackingButton!)
     }
     
@@ -102,6 +111,12 @@ extension MainViewController {
             make.width.equalTo(80)
             make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
             make.left.equalToSuperview().inset(16)
+        }
+        
+        refreshButton.snp.makeConstraints { make in
+            make.height.width.equalTo(50)
+            make.top.equalTo(view.safeAreaLayoutGuide).inset(16)
+            make.left.equalTo(distanceButton.snp.right).offset(5)
         }
         
         mapView.snp.makeConstraints { make in
@@ -127,6 +142,11 @@ extension MainViewController {
             }
             
             self?.present(viewController, animated: true)
+        }), for: .touchUpInside)
+        
+        refreshButton.addAction(UIAction(handler: { [weak self] _ in
+            self?.locationManager.startUpdatingLocation()
+            self?.isRefesh = true
         }), for: .touchUpInside)
     }
     
@@ -170,9 +190,19 @@ extension MainViewController: DistanceDelegate {
 // MARK: - CLLocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first, isMapInitialized {
+        guard let location = locations.first else { return }
+             
+        if isMapInitialized {
             centerMapOnLocation(location: location)
             isMapInitialized = false
+        }
+        
+        if isRefesh {
+            fetchPharmacy(
+                lat: location.coordinate.latitude,
+                lng: location.coordinate.longitude
+            )
+            isRefesh = false
         }
     }
 }
