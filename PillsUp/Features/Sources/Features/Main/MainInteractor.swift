@@ -58,18 +58,18 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     }
     
     func saveDistance(_ distance: Int) {
-        do {
-            try distanceUseCase.save(distance)
-            presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
-        } catch {
-            // TODO: 에러처리
-        }
+        try! distanceUseCase.save(distance)
+        presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
     }
     
     func fetchPharmacy(_ location: Location) {
         Task {
-            let result = try await locateNearbyPharmaciesUseCase.retrieve(location)
-            presenter.pharmacySubject.send(result.items)
+            let distance = Double(distanceUseCase.retrieve()) / 1000.0
+            let pharmacy = try await locateNearbyPharmaciesUseCase.retrieve(location)
+            
+            let result = pharmacy.items.filter { Double($0.distance) ?? 0 <= distance }
+            
+            presenter.pharmacySubject.send(result)
         }
     }
 }
