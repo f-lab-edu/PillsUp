@@ -141,12 +141,11 @@ extension MainViewController {
                 viewController.currentDistance = currentDistance
             }
             
-            self?.present(viewController, animated: true)
+            self?.present(viewController, animated: false)
         }), for: .touchUpInside)
         
         refreshButton.addAction(UIAction(handler: { [weak self] _ in
-            self?.locationManager.startUpdatingLocation()
-            self?.isRefesh = true
+            self?.refreshAndFetchData()
         }), for: .touchUpInside)
     }
     
@@ -177,6 +176,11 @@ extension MainViewController {
         let location = Location(lat: lat, lng: lng)
         listener?.fetchPharmacy(location)
     }
+    
+    private func refreshAndFetchData() {
+        self.locationManager.startUpdatingLocation()
+        self.isRefesh = true
+    }
 }
 
 // MARK: - DistanceDelegate
@@ -184,6 +188,7 @@ extension MainViewController: DistanceDelegate {
     func didSelectDistance(_ distance: Int) {
         self.dismiss(animated: false)
         listener?.saveDistance(distance)
+        self.refreshAndFetchData()
     }
 }
 
