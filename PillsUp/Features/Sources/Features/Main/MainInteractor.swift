@@ -16,6 +16,7 @@ protocol MainRouting: ViewableRouting {
 protocol MainPresentable: Presentable {
     var listener: MainPresentableListener? { get set }
     var currentDistanceSubject: PassthroughSubject<Int, Never> { get set }
+    var pharmacySubject: PassthroughSubject<[Pharmacy], Never> { get }
 }
 
 protocol MainListener: AnyObject {
@@ -27,12 +28,15 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     weak var router: MainRouting?
     weak var listener: MainListener?
     private let distanceUseCase: DistanceSettingUseCase
+    private let locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase
     
     init(
         presenter: MainPresentable,
-        distanceUseCase: DistanceSettingUseCase
+        distanceUseCase: DistanceSettingUseCase,
+        locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase
     ) {
         self.distanceUseCase = distanceUseCase
+        self.locateNearbyPharmaciesUseCase = locateNearbyPharmaciesUseCase
         super.init(presenter: presenter)
         presenter.listener = self
     }
@@ -49,6 +53,8 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     
     func viewLoaded() {
         presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
+        
+        
     }
     
     func saveDistance(_ distance: Int) {
@@ -57,6 +63,13 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
             presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
         } catch {
             // TODO: 에러처리
+        }
+    }
+    
+    func fetchPharmacy(_ location: Location) {
+        Task {
+            let result = try await locateNearbyPharmaciesUseCase.retrieve(location)
+            presenter.pharmacySubject.send(result.items)
         }
     }
 }

@@ -10,11 +10,16 @@ import Domain
 
 protocol MainDependency: Dependency {
     var distanceSettingUseCase: DistanceSettingUseCase { get }
+    var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase { get }
 }
 
 final class MainComponent: Component<MainDependency> {
     var distanceSettingUseCase: DistanceSettingUseCase {
         return dependency.distanceSettingUseCase
+    }
+    
+    var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase {
+        return dependency.locateNearbyPharmaciesUseCase
     }
 }
 
@@ -31,11 +36,12 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
     }
 
     func build(withListener listener: MainListener) -> MainRouting {
-//        let component = MainComponent(dependency: dependency)
+        
         let viewController = MainViewController()
         let interactor = MainInteractor(
             presenter: viewController,
-            distanceUseCase: dependency.distanceSettingUseCase
+            distanceUseCase: dependency.distanceSettingUseCase,
+            locateNearbyPharmaciesUseCase: dependency.locateNearbyPharmaciesUseCase
         )
         interactor.listener = listener
         

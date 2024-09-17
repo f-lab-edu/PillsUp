@@ -11,11 +11,16 @@ import Domain
 
 public protocol RootDependency: Dependency {
     var distanceSettingUseCase: DistanceSettingUseCase { get }
+    var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase { get }
 }
 
 final class RootComponent: Component<RootDependency> {
     var distanceSettingUseCase: DistanceSettingUseCase {
         return dependency.distanceSettingUseCase
+    }
+    
+    var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase {
+        return dependency.locateNearbyPharmaciesUseCase
     }
 }
 

@@ -12,16 +12,20 @@ import Then
 import Combine
 import CoreLocation
 import MapKit
+import Domain
 
 protocol MainPresentableListener: AnyObject {
     func saveDistance(_ distance: Int)
+    func fetchPharmacy(_ location: Location)
     func viewLoaded()
 }
 
 final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
-
+    
     weak var listener: MainPresentableListener?
     var currentDistanceSubject = PassthroughSubject<Int, Never>()
+    var pharmacySubject = PassthroughSubject<[Pharmacy], Never>()
+    private var nearbyPharmacy = [Pharmacy]()
     private var currentDistance: Int?
     private var cancellable = Set<AnyCancellable>()
     
@@ -57,6 +61,13 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
             .sink { [weak self] distance in
                 self?.distanceButton.setTitle("\(distance)m", for: .normal)
                 self?.currentDistance = distance
+            }
+            .store(in: &cancellable)
+        
+        pharmacySubject
+            .sink { [weak self] pharmacy in
+                self?.nearbyPharmacy = pharmacy
+                self?.addPinAtLocation()
             }
             .store(in: &cancellable)
     }
@@ -119,22 +130,32 @@ extension MainViewController {
         }), for: .touchUpInside)
     }
     
-    func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
+    private func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius,
                                                   longitudinalMeters: regionRadius)
+        fetchPharmacy(
+            lat: coordinateRegion.center.latitude,
+            lng: coordinateRegion.center.longitude
+        )
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
-    func addPinAtLocation(
-        latitude: CLLocationDegrees,
-        longitude: CLLocationDegrees,
-        title: String
-    ) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        annotation.title = title
-        mapView.addAnnotation(annotation)
+    private func addPinAtLocation() {
+        nearbyPharmacy.forEach { pharmacy in
+            let annotation = MKPointAnnotation()
+            let lat = Double(pharmacy.latitude) ?? 0.0
+            let lng = Double(pharmacy.longitude) ?? 0.0
+            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
+            annotation.title = pharmacy.dutyName
+            mapView.addAnnotation(annotation)
+        }
+        
+    }
+    
+    private func fetchPharmacy(lat: Double, lng: Double) {
+        let location = Location(lat: lat, lng: lng)
+        listener?.fetchPharmacy(location)
     }
 }
 
@@ -158,5 +179,7 @@ extension MainViewController: CLLocationManagerDelegate {
 
 // MARK: - MKMapViewDelegate
 extension MainViewController: MKMapViewDelegate {
-    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        guard let annotation = view.annotation else { return }
+    }
 }
