@@ -40,7 +40,7 @@ extension PharmacyType: TargetType {
             let serviceKey = Configuration.retrieve(.serviceKey)
             
             return URL(
-                string: "\(baseURL))/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire?serviceKey=\(serviceKey)&WGS84_LAT=\(request.lat)&WGS84_LON=\(request.lng)"
+                string: "\(baseURL)/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire?serviceKey=\(serviceKey)&WGS84_LAT=\(request.lat)&WGS84_LON=\(request.lng)"
             )!
         }
     }

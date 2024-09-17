@@ -11,8 +11,8 @@ public struct Location {
     public let lat: Double
     public let lng: Double
     
-    public init(latitude: Double, longitude: Double) {
-        self.lat = latitude
-        self.lng = longitude
+    public init(lat: Double, lng: Double) {
+        self.lat = lat
+        self.lng = lng
     }
 }
