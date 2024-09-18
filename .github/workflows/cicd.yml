@@ -32,6 +32,7 @@ jobs:
     
     - name: 🛠️ Domain Package Tests 🛠️
       uses: sersoft-gmbh/xcodebuild-action@v1
+      run: ls
       with:
           project: PillsUp/PillsUp.xcodeproj
           scheme: DomainTests
