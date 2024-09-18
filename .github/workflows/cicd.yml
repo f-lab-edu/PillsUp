@@ -12,6 +12,7 @@ jobs:
   build:
     runs-on: macos-latest
     
+    steps:
     - uses: actions/checkout@v4
     - name: 🛠️ Domain Package Tests 🛠️
       run: |
@@ -21,7 +22,6 @@ jobs:
          -destination 'platform=iOS Simulator,name=iPhone 14,OS=15' \
          -enableCodeCoverage YES \
          -allowProvisioningUpdates
-
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1.2.1
       with:
