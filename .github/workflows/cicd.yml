@@ -13,38 +13,17 @@ jobs:
     runs-on: macos-latest
     
     steps:
-#    - uses: actions/checkout@v4
-#    - name: 🛠️ Domain Package Tests 🛠️
-#      run: |
-#         xcodebuild test \
-#         -project PillsUp/PillsUp.xcodeproj \
-#         -scheme DomainTests \
-#         -destination 'platform=iOS Simulator,name=iPhone 14,OS=15' \
-#         -enableCodeCoverage YES \
-#         -allowProvisioningUpdates
-#
-#    - name: 📈 Test Coverage 📈
-#      uses: maxep/xcodebuild-lcov-action@0.1.0
-#      with:
-#           derived-data-path: ./output
-#           target: DomainTests.xctest
-#
-    
+    - uses: actions/checkout@v4
     - name: 🛠️ Domain Package Tests 🛠️
-      run: ls
-      uses: sersoft-gmbh/xcodebuild-action@v1
-      with:
-          project: PillsUp/PillsUp.xcodeproj
-          scheme: DomainTests
-          derived-data-path: ./output
-          destination: "OS=15.0,name=iPhone 14"
-          action: test
-          enable-code-coverage: true
-
-    # 코드 커버리지 리포트 생성
-    - name: 📈 Test Coverage 📈
+      run: |
+         xcodebuild test \
+         -project PillsUp/PillsUp.xcodeproj \
+         -scheme DomainTests \
+         -destination 'platform=iOS Simulator,name=iPhone 14,OS=15' \
+         -enableCodeCoverage YES \
+         -allowProvisioningUpdates
       uses: maxep/xcodebuild-lcov-action@0.1.0
       with:
-          derived-data-path: ./output
-          target: DomainTests.xctest
-          output-file: ./output/lcov.info
+           derived-data-path: ./output
+           target: DomainTests.xctest
+
