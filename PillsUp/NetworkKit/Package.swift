@@ -4,23 +4,25 @@
 import PackageDescription
 
 let package = Package(
-    name: "Domain",
+    name: "NetworkKit",
     platforms: [.iOS(.v15)],
     products: [
         .library(
-            name: "Domain",
-            targets: ["Domain"]),
+            name: "NetworkKit",
+            targets: ["NetworkKit"]),
     ],
     dependencies: [
-        .package(path: "../Shared")
+        .package(path: "../Domain")
     ],
     targets: [
         .target(
-            name: "Domain",
-            dependencies: [.product(name: "Shared", package: "Shared")]
+            name: "NetworkKit",
+            dependencies: [
+                .product(name: "Domain", package: "Domain")
+            ]
         ),
         .testTarget(
-            name: "DomainTests",
-            dependencies: ["Domain"]),
+            name: "NetworkKitTests",
+            dependencies: ["NetworkKit"]),
     ]
 )
