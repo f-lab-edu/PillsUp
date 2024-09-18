@@ -12,13 +12,6 @@ jobs:
   build:
     runs-on: macos-latest
     
-    steps:
-    # llvm 설치 및 경로 설정
-    - name: Install llvm for code coverage
-      run: |
-        brew install llvm
-        echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> $GITHUB_ENV
-    
     - uses: actions/checkout@v4
     - name: 🛠️ Domain Package Tests 🛠️
       run: |
@@ -29,9 +22,8 @@ jobs:
          -enableCodeCoverage YES \
          -allowProvisioningUpdates
 
-    - name: 📈 Test Coverage 📈
-      uses: maxep/xcodebuild-lcov-action@0.1.0
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v1.2.1
       with:
-           derived-data-path: /Users/runner/Library/Developer/Xcode/DerivedData/*/Logs/Test/*.xcresult
-           target: DomainTests.xctest
+        token: 1d79279b-2b0e-4a36-ae58-ce41c93d4103
 
