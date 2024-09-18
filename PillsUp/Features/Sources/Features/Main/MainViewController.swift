@@ -149,6 +149,23 @@ extension MainViewController {
         }), for: .touchUpInside)
     }
     
+    func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
+        let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
+                                                  latitudinalMeters: regionRadius,
+                                                  longitudinalMeters: regionRadius)
+        mapView.setRegion(coordinateRegion, animated: true)
+    }
+    
+    func addPinAtLocation(
+        latitude: CLLocationDegrees,
+        longitude: CLLocationDegrees,
+        title: String
+    ) {
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        annotation.title = title
+        mapView.addAnnotation(annotation)
+    }
     private func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius,
@@ -181,6 +198,7 @@ extension MainViewController {
         self.locationManager.startUpdatingLocation()
         self.isRefesh = true
     }
+    
 }
 
 // MARK: - DistanceDelegate
@@ -217,4 +235,19 @@ extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation else { return }
     }
+}
+
+// MARK: - CLLocationManagerDelegate
+extension MainViewController: CLLocationManagerDelegate {
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first, isMapInitialized {
+            centerMapOnLocation(location: location)
+            isMapInitialized = false
+        }
+    }
+}
+
+// MARK: - MKMapViewDelegate
+extension MainViewController: MKMapViewDelegate {
+    
 }
