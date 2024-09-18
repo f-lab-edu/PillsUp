@@ -22,8 +22,10 @@ jobs:
          -destination 'platform=iOS Simulator,name=iPhone 14,OS=15' \
          -enableCodeCoverage YES \
          -allowProvisioningUpdates
+
+    - name: 📈 Test Coverage 📈
       uses: maxep/xcodebuild-lcov-action@0.1.0
       with:
-           derived-data-path: ./output
+           derived-data-path: /Users/runner/Library/Developer/Xcode/DerivedData/*/Logs/Test/*.xcresult
            target: DomainTests.xctest
 
