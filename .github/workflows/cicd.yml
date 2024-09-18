@@ -15,7 +15,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: 🛠️ Domain Package Tests 🛠️
-       run: |
+      run: |
          xcodebuild test \
          -project PillsUp/PillsUp.xcodeproj \
          -scheme DomainTests \
@@ -23,9 +23,9 @@ jobs:
          -enableCodeCoverage YES \
          -allowProvisioningUpdates
 
-     - name: 📈 Test Coverage 📈
-       uses: maxep/xcodebuild-lcov-action@0.1.0
-       with:
+    - name: 📈 Test Coverage 📈
+      uses: maxep/xcodebuild-lcov-action@0.1.0
+      with:
            derived-data-path: ./output
            target: DomainTests.xctest
     
@@ -38,7 +38,7 @@ jobs:
 #          destination: "OS=latest,name=iPhone 15"
 #          action: test
 #          enable-code-coverage: true
-#    
+#
 #    # 코드 커버리지 리포트 생성
 #    - name: 📈 Test Coverage 📈
 #      uses: maxep/xcodebuild-lcov-action@0.1.0
