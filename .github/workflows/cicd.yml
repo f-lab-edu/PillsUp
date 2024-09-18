@@ -12,6 +12,12 @@ jobs:
   build:
     runs-on: macos-latest
     
+    # llvm 설치 및 경로 설정
+    - name: Install llvm for code coverage
+      run: |
+        brew install llvm
+        echo 'export PATH="/usr/local/opt/llvm/bin:$PATH"' >> $GITHUB_ENV
+
     steps:
     - uses: actions/checkout@v4
     - name: 🛠️ Domain Package Tests 🛠️
