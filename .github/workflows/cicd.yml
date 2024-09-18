@@ -28,7 +28,10 @@ jobs:
 #      with:
 #           derived-data-path: ./output
 #           target: DomainTests.xctest
-#    
+#
+    - name: List project files
+      run: ls -R
+    
     - name: 🛠️ Domain Package Tests 🛠️
       uses: sersoft-gmbh/xcodebuild-action@v1
       with:
