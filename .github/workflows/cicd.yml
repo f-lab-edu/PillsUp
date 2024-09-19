@@ -4,9 +4,12 @@
 name: cicd
 
 on:
-  push:
-    branches: [ "feature/018-cicd" ]
-  workflow_dispatch:
+  pull_request:
+    branches: [ "develop" ]
+    paths:
+      - '.github/workflows/cicd.yml'
+      - '.swiftlint.yml'
+      - '**/*.swift'
 
 jobs:
   macos-build:
