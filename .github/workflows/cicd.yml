@@ -5,7 +5,7 @@ name: cicd
 
 on:
   pull_request:
-    branches: [ "develop" ]
+    branches: [ "feature/018-cicd" ]
     paths:
       - '.github/workflows/cicd.yml'
       - '.swiftlint.yml'
