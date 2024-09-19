@@ -39,5 +39,6 @@ public struct DistanceSetting: DistanceSettingUseCase {
             throw DistanceSettingError.roundFigure
         }
         distanceRepository.save(distance)
+        print("test")
     }
 }
