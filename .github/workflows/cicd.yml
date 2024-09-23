@@ -8,7 +8,7 @@ on:
     branches: [ "develop" ]
 
 jobs:
-  testCode-build:
+  build:
     runs-on: macos-latest
     
     steps:
@@ -26,39 +26,5 @@ jobs:
       uses: codecov/codecov-action@v1.2.1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        
-  lint-build:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v4
-    - name: 🧪 GitHub Action for SwiftLint 🧪
-      uses: norio-nomura/action-swiftlint@3.2.1
-
-    - name: ✅ Add PR Comment ✅
-      if: ${{ success() }}
-      uses: mshick/add-pr-comment@v1
-      with:
-        message: |
-           ## All File Checked ✅
-           | ✅     | Auto Pull Request SwiftLint Success!!!!     |
-           |---    |-------------------------------------------    |
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        repo-token-user-login: 'github-actions[bot]'
-        allow-repeats: false
-        continue-on-error: true
-
-    - name: ❌ Add PR Failure Comment ❌
-      if: ${{ failure() }}
-      uses: mshick/add-pr-comment@v1
-      with:
-        message: |
-          ## SwiftLint Check Failed ❌
-          | ❌     | SwiftLint failed with errors. Please check the logs for more details.     |
-          |---    |-------------------------------------------------------------    |
-          | 🛠     | [Check the Action Logs for more details](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}) |
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        repo-token-user-login: 'github-actions[bot]'
-        allow-repeats: false
     
 
