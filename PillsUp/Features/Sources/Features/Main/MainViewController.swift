@@ -165,10 +165,7 @@ extension MainViewController {
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius,
                                                   longitudinalMeters: regionRadius)
-        fetchPharmacy(
-            lat: coordinateRegion.center.latitude,
-            lng: coordinateRegion.center.longitude
-        )
+        fetchPharmacy(coordinateRegion.center)
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
@@ -184,8 +181,8 @@ extension MainViewController {
         
     }
     
-    private func fetchPharmacy(lat: Double, lng: Double) {
-        let location = Location(lat: lat, lng: lng)
+    private func fetchPharmacy(_ location: CLLocationCoordinate2D) {
+        let location = Location(lat: location.latitude, lng: location.longitude)
         fetchPharmacyListener?.fetchPharmacy(location)
     }
     
@@ -219,10 +216,7 @@ extension MainViewController: CLLocationManagerDelegate {
         }
         
         if isRefesh {
-            fetchPharmacy(
-                lat: location.coordinate.latitude,
-                lng: location.coordinate.longitude
-            )
+            fetchPharmacy(location.coordinate)
             isRefesh = false
         }
     }
