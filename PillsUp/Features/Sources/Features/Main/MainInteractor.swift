@@ -15,6 +15,8 @@ protocol MainRouting: ViewableRouting {
 
 protocol MainPresentable: Presentable {
     var listener: MainPresentableListener? { get set }
+    var fetchPharmacyListener: MainFetchPharmacyListener? { get set }
+    var saveDistanceListener: MainSaveDistanceListener? { get set }
     var currentDistanceSubject: PassthroughSubject<Int, Never> { get set }
     var pharmacySubject: PassthroughSubject<[Pharmacy], Never> { get }
 }
@@ -23,7 +25,7 @@ protocol MainListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
-final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable, MainPresentableListener {
+final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable, MainPresentableListener, MainFetchPharmacyListener, MainSaveDistanceListener {
 
     weak var router: MainRouting?
     weak var listener: MainListener?
@@ -37,8 +39,12 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     ) {
         self.distanceUseCase = distanceUseCase
         self.locateNearbyPharmaciesUseCase = locateNearbyPharmaciesUseCase
+        
         super.init(presenter: presenter)
+        
         presenter.listener = self
+        presenter.fetchPharmacyListener = self
+        presenter.saveDistanceListener = self
     }
 
     override func didBecomeActive() {
@@ -58,7 +64,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     }
     
     func saveDistance(_ distance: Int) {
-        try! distanceUseCase.save(distance)
+        try? distanceUseCase.save(distance)
         presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
     }
     

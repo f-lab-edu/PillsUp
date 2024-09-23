@@ -43,6 +43,7 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
             distanceUseCase: dependency.distanceSettingUseCase,
             locateNearbyPharmaciesUseCase: dependency.locateNearbyPharmaciesUseCase
         )
+        
         interactor.listener = listener
         
         return MainRouter(interactor: interactor, viewController: viewController)
