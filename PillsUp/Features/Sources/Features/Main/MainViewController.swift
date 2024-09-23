@@ -13,6 +13,7 @@ import Combine
 import CoreLocation
 import MapKit
 import Domain
+import Shared
 
 protocol MainPresentableListener: AnyObject {
     func viewLoaded()
@@ -37,6 +38,8 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
     private var nearbyPharmacy = [Pharmacy]()
     private var currentDistance: Int?
     private var cancellable = Set<AnyCancellable>()
+    
+    private let pharmacyTableView = UITableView()
     
     private let distanceButton = UIButton(type: .system).then {
         $0.setTitle("500m", for: .normal)
@@ -84,6 +87,9 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         pharmacySubject
             .sink { [weak self] pharmacy in
                 self?.nearbyPharmacy = pharmacy
+                DispatchQueue.main.async {
+                    self?.pharmacyTableView.reloadData()
+                }
                 self?.addPinAtLocation()
             }
             .store(in: &cancellable)
@@ -99,6 +105,15 @@ extension MainViewController {
         mapView.delegate = self
         locationManager.delegate = self
         
+        pharmacyTableView.delegate = self
+        pharmacyTableView.dataSource = self
+        pharmacyTableView.backgroundColor = .white
+        pharmacyTableView.separatorStyle = .none
+        pharmacyTableView.register(
+            PharmacyTableViewCell.self,
+            forCellReuseIdentifier: PharmacyTableViewCell.identifier
+        )
+        
         mapView.showsUserLocation = true
         
         locationManager.requestWhenInUseAuthorization()
@@ -109,6 +124,7 @@ extension MainViewController {
     
     private func addSubViews() {
         view.addSubview(mapView)
+        view.addSubview(pharmacyTableView)
         view.addSubview(distanceButton)
         view.addSubview(refreshButton)
         view.addSubview(trackingButton!)
@@ -132,6 +148,12 @@ extension MainViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.left.right.equalToSuperview()
             make.height.equalTo(view.safeAreaLayoutGuide.layoutFrame.height / 2)
+        }
+        
+        pharmacyTableView.snp.makeConstraints { make in
+            make.top.equalTo(mapView.snp.bottom)
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         trackingButton?.snp.makeConstraints { make in
@@ -171,11 +193,16 @@ extension MainViewController {
     
     private func addPinAtLocation() {
         nearbyPharmacy.forEach { pharmacy in
-            let annotation = MKPointAnnotation()
             let lat = Double(pharmacy.latitude) ?? 0.0
             let lng = Double(pharmacy.longitude) ?? 0.0
-            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-            annotation.title = pharmacy.dutyName
+            
+            let annotation = PharmacyAnnotation(
+                coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng),
+                title: pharmacy.dutyName,
+                subtitle: nil,
+                id: pharmacy.hpid
+            )
+            
             mapView.addAnnotation(annotation)
         }
         
@@ -225,6 +252,33 @@ extension MainViewController: CLLocationManagerDelegate {
 // MARK: - MKMapViewDelegate
 extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let annotation = view.annotation else { return }
+        guard let annotation = view.annotation as? PharmacyAnnotation else { return }
+        // TODO: - annotation.id 넘기기
+    }
+}
+
+// MARK: - TableViewDataSource, TableViewDelegate
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        nearbyPharmacy.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: PharmacyTableViewCell.identifier,
+            for: indexPath
+        ) as? PharmacyTableViewCell else { return UITableViewCell() }
+        
+        cell.bind(nearbyPharmacy[indexPath.row])
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        56
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: - nearbyPharmacy[indexPath.row].hpid 넘기기
     }
 }
