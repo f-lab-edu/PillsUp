@@ -10,11 +10,9 @@ import UIKit
 
 protocol PharmacyDetailDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
-    // created by this RIB.
 }
 
 final class PharmacyDetailComponent: Component<PharmacyDetailDependency> {
-
     // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
 }
 
@@ -23,7 +21,8 @@ final class PharmacyDetailComponent: Component<PharmacyDetailDependency> {
 protocol PharmacyDetailBuildable: Buildable {
     func build(
         withListener listener: PharmacyDetailListener,
-        navigation: UINavigationController
+        navigation: UINavigationController,
+        hpid: String
     ) -> PharmacyDetailRouting
 }
 
@@ -35,7 +34,8 @@ final class PharmacyDetailBuilder: Builder<PharmacyDetailDependency>, PharmacyDe
 
     func build(
         withListener listener: PharmacyDetailListener,
-        navigation: UINavigationController
+        navigation: UINavigationController,
+        hpid: String
     ) -> PharmacyDetailRouting {
         let component = PharmacyDetailComponent(dependency: dependency)
         var viewController: PharmacyDetailViewController!
@@ -44,7 +44,7 @@ final class PharmacyDetailBuilder: Builder<PharmacyDetailDependency>, PharmacyDe
             viewController = PharmacyDetailViewController()
         }
         
-        let interactor = PharmacyDetailInteractor(presenter: viewController)
+        let interactor = PharmacyDetailInteractor(presenter: viewController, hpid: hpid)
         interactor.listener = listener
         return PharmacyDetailRouter(
             interactor: interactor,

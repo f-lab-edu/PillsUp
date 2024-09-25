@@ -24,10 +24,13 @@ final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresen
 
     weak var router: PharmacyDetailRouting?
     weak var listener: PharmacyDetailListener?
-
-    // TODO: Add additional dependencies to constructor. Do not perform any logic
-    // in constructor.
-    override init(presenter: PharmacyDetailPresentable) {
+    private let hpid: String
+    
+    init(
+        presenter: PharmacyDetailPresentable,
+        hpid: String
+    ) {
+        self.hpid = hpid
         super.init(presenter: presenter)
         presenter.listener = self
     }

@@ -36,7 +36,8 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
     func pushToDetail(_ hpid: String) {
         let detail = detailBuilder.build(
             withListener: interactor,
-            navigation: navigation
+            navigation: navigation,
+            hpid: hpid
         )
         self.detailRouting = detail
         
