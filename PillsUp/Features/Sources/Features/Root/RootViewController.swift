@@ -17,23 +17,17 @@ public protocol RootPresentableListener: AnyObject {
 final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
 
     weak var listener: RootPresentableListener?
-    var navigation: UINavigationController
     
     init(
         listener: RootPresentableListener? = nil,
         navigation: UINavigationController
     ) {
         self.listener = listener
-        self.navigation = navigation
         super.init(nibName: nil, bundle: nil)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func routeMain(_ viewController: ViewControllable) {
-        self.navigation.pushViewController(viewController.uiviewController, animated: true)
     }
 }
 

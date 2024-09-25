@@ -6,6 +6,7 @@
 //
 
 import ModernRIBs
+import UIKit
 
 protocol PharmacyDetailDependency: Dependency {
     // TODO: Declare the set of dependencies required by this RIB, but cannot be
@@ -20,7 +21,10 @@ final class PharmacyDetailComponent: Component<PharmacyDetailDependency> {
 // MARK: - Builder
 
 protocol PharmacyDetailBuildable: Buildable {
-    func build(withListener listener: PharmacyDetailListener) -> PharmacyDetailRouting
+    func build(
+        withListener listener: PharmacyDetailListener,
+        navigation: UINavigationController
+    ) -> PharmacyDetailRouting
 }
 
 final class PharmacyDetailBuilder: Builder<PharmacyDetailDependency>, PharmacyDetailBuildable {
@@ -29,11 +33,23 @@ final class PharmacyDetailBuilder: Builder<PharmacyDetailDependency>, PharmacyDe
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: PharmacyDetailListener) -> PharmacyDetailRouting {
+    func build(
+        withListener listener: PharmacyDetailListener,
+        navigation: UINavigationController
+    ) -> PharmacyDetailRouting {
         let component = PharmacyDetailComponent(dependency: dependency)
-        let viewController = PharmacyDetailViewController()
+        var viewController: PharmacyDetailViewController!
+        
+        DispatchQueue.main.sync {
+            viewController = PharmacyDetailViewController()
+        }
+        
         let interactor = PharmacyDetailInteractor(presenter: viewController)
         interactor.listener = listener
-        return PharmacyDetailRouter(interactor: interactor, viewController: viewController)
+        return PharmacyDetailRouter(
+            interactor: interactor,
+            viewController: viewController,
+            navigation: navigation
+        )
     }
 }

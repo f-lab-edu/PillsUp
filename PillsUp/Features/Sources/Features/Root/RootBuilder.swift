@@ -46,7 +46,8 @@ public final class RootBuilder: Builder<RootDependency>, RootBuildable {
         return RootRouter(
             interactor: interactor,
             viewController: viewController,
-            mainBuilder: mainBuilder
+            mainBuilder: mainBuilder,
+            navigation: navigationController
         )
     }
 }

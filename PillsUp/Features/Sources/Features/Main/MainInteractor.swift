@@ -10,7 +10,7 @@ import Domain
 import Combine
 
 protocol MainRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func pushToDetail(_ hpid: String)
 }
 
 protocol MainPresentable: Presentable {
@@ -53,8 +53,6 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     
     func viewLoaded() {
         presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
-        
-        
     }
     
     func saveDistance(_ distance: Int) {
@@ -70,6 +68,9 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
             let result = pharmacy.items.filter { Double($0.distance) ?? 0 <= distance }
             
             presenter.pharmacySubject.send(result)
+            
+            // TODO: Remove TestCode
+            router?.pushToDetail("777")
         }
     }
 }

@@ -8,7 +8,7 @@
 import ModernRIBs
 
 protocol PharmacyDetailRouting: ViewableRouting {
-    // TODO: Declare methods the interactor can invoke to manage sub-tree via the router.
+    func pop()
 }
 
 protocol PharmacyDetailPresentable: Presentable {
@@ -40,5 +40,9 @@ final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresen
     override func willResignActive() {
         super.willResignActive()
         // TODO: Pause any business logic.
+    }
+    
+    func onTapBack() {
+        router?.pop()
     }
 }

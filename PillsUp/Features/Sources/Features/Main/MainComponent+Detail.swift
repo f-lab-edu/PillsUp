@@ -6,3 +6,8 @@
 //
 
 import Foundation
+import ModernRIBs
+
+protocol MainDependencyDetail: Dependency { }
+
+extension MainComponent: PharmacyDetailDependency { }

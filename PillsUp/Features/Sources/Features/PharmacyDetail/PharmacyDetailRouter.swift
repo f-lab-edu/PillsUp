@@ -6,6 +6,7 @@
 //
 
 import ModernRIBs
+import UIKit
 
 protocol PharmacyDetailInteractable: Interactable {
     var router: PharmacyDetailRouting? { get set }
@@ -17,10 +18,21 @@ protocol PharmacyDetailViewControllable: ViewControllable {
 }
 
 final class PharmacyDetailRouter: ViewableRouter<PharmacyDetailInteractable, PharmacyDetailViewControllable>, PharmacyDetailRouting {
-
-    // TODO: Constructor inject child builder protocols to allow building children.
-    override init(interactor: PharmacyDetailInteractable, viewController: PharmacyDetailViewControllable) {
+    
+    private let navigation: UINavigationController
+    
+    init(
+        interactor: PharmacyDetailInteractable,
+        viewController: PharmacyDetailViewControllable,
+        navigation: UINavigationController
+    ) {
+        self.navigation = navigation
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
+    }
+    
+    func pop() {
+        detachChild(self)
+        navigation.popViewController(animated: true)
     }
 }
