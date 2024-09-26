@@ -9,4 +9,5 @@ import Foundation
 
 public protocol PharmacyRepository {
     func retrieveNearbyData(_ request: Location) async throws -> PharmacyResponse
+    func retrievePharmacyDetail(_ hpid: String) async throws -> PharmacyDetail?
 }

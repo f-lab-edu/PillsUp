@@ -9,7 +9,6 @@ import Foundation
 import Domain
 
 public struct DefaultPharmacyRepository: PharmacyRepository {
-    
     private let dataSource: PharmacyDataSource
     
     public init(dataSource: PharmacyDataSource) {
@@ -23,5 +22,9 @@ public struct DefaultPharmacyRepository: PharmacyRepository {
         )
         
         return try await dataSource.getNearbyPlaces(requestDTO).toDomain()
+    }
+    
+    public func retrievePharmacyDetail(_ hpid: String) async throws -> PharmacyDetail? {
+        return try await dataSource.getDetail(hpid).toDomain()
     }
 }
