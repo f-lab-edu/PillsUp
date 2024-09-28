@@ -7,14 +7,18 @@
 
 import ModernRIBs
 import UIKit
+import Combine
+import Domain
 
 protocol PharmacyDetailPresentableListener: AnyObject {
     func onTapBack()
 }
 
 final class PharmacyDetailViewController: UIViewController, PharmacyDetailPresentable, PharmacyDetailViewControllable {
-
+    
+    var pharmacyDetail = PassthroughSubject<Domain.PharmacyDetail, Never>()
     weak var listener: PharmacyDetailPresentableListener?
+    private var cancellable = Set<AnyCancellable>()
     
     private let backButton = UIButton(type: .system).then {
         $0.setImage(UIImage(systemName: "chevron.left"), for: .normal)
@@ -31,6 +35,7 @@ final class PharmacyDetailViewController: UIViewController, PharmacyDetailPresen
         addSubViews()
         makeLayout()
         addActions()
+        setSubscribe()
     }
 }
 
@@ -57,5 +62,13 @@ extension PharmacyDetailViewController {
         backButton.addAction(UIAction(handler: { [weak self] _ in
             self?.listener?.onTapBack()
         }), for: .touchUpInside)
+    }
+    
+    private func setSubscribe() {
+        pharmacyDetail
+            .sink { detail in
+                print(detail)
+            }
+            .store(in: &cancellable)
     }
 }

@@ -17,6 +17,7 @@ protocol MainPresentable: Presentable {
     var listener: MainPresentableListener? { get set }
     var fetchPharmacyListener: MainFetchPharmacyListener? { get set }
     var saveDistanceListener: MainSaveDistanceListener? { get set }
+    var mainDetailListener: MainDetailListener? { get set }
     var currentDistanceSubject: PassthroughSubject<Int, Never> { get set }
     var pharmacySubject: PassthroughSubject<[Pharmacy], Never> { get }
 }
@@ -45,6 +46,7 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         presenter.listener = self
         presenter.fetchPharmacyListener = self
         presenter.saveDistanceListener = self
+        presenter.mainDetailListener = self
     }
 
     override func didBecomeActive() {
@@ -72,10 +74,7 @@ extension MainInteractor: MainFetchPharmacyListener {
             
             let result = pharmacy.items.filter { Double($0.distance) ?? 0 <= distance }
             
-            presenter.pharmacySubject.send(result)
-            
-            // TODO: Remove TestCode
-            router?.pushToDetail("777")
+            presenter.pharmacySubject.send(pharmacy.items)
         }
     }
 }
@@ -84,5 +83,11 @@ extension MainInteractor: MainSaveDistanceListener {
     func saveDistance(_ distance: Int) {
         try? distanceUseCase.save(distance)
         presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
+    }
+}
+
+extension MainInteractor: MainDetailListener {
+    func push(hpid: String) {
+        router?.pushToDetail(hpid)
     }
 }

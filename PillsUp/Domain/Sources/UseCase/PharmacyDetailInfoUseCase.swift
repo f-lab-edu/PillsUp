@@ -11,7 +11,7 @@ public protocol PharmacyDetailInfoUseCase {
     func retrieve(_ hdid: String) async throws -> PharmacyDetail?
 }
 
-public struct PharmacyDetailInfo {
+public struct PharmacyDetailInfo: PharmacyDetailInfoUseCase {
     private let repository: PharmacyRepository
     
     public init(repository: PharmacyRepository) {

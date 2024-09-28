@@ -27,11 +27,16 @@ protocol MainFetchPharmacyListener: AnyObject {
     func fetchPharmacy(_ location: Location)
 }
 
+protocol MainDetailListener: AnyObject {
+    func push(hpid: String)
+}
+
 final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
     
     weak var listener: MainPresentableListener?
     weak var fetchPharmacyListener: MainFetchPharmacyListener?
     weak var saveDistanceListener: MainSaveDistanceListener?
+    weak var mainDetailListener: MainDetailListener?
     
     var currentDistanceSubject = PassthroughSubject<Int, Never>()
     var pharmacySubject = PassthroughSubject<[Pharmacy], Never>()
@@ -253,7 +258,7 @@ extension MainViewController: CLLocationManagerDelegate {
 extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         guard let annotation = view.annotation as? PharmacyAnnotation else { return }
-        // TODO: - annotation.id 넘기기
+        mainDetailListener?.push(hpid: annotation.id)
     }
 }
 
@@ -279,6 +284,6 @@ extension MainViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: - nearbyPharmacy[indexPath.row].hpid 넘기기
+        mainDetailListener?.push(hpid: nearbyPharmacy[indexPath.row].hpid)
     }
 }

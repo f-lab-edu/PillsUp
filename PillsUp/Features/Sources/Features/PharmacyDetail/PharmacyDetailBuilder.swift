@@ -7,13 +7,16 @@
 
 import ModernRIBs
 import UIKit
+import Domain
 
 protocol PharmacyDetailDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
+    var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase { get }
 }
 
 final class PharmacyDetailComponent: Component<PharmacyDetailDependency> {
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase {
+        return dependency.pharmacyDetailInfoUseCase
+    }
 }
 
 // MARK: - Builder
@@ -38,14 +41,16 @@ final class PharmacyDetailBuilder: Builder<PharmacyDetailDependency>, PharmacyDe
         hpid: String
     ) -> PharmacyDetailRouting {
         let component = PharmacyDetailComponent(dependency: dependency)
-        var viewController: PharmacyDetailViewController!
+        let viewController = PharmacyDetailViewController()
         
-        DispatchQueue.main.sync {
-            viewController = PharmacyDetailViewController()
-        }
+        let interactor = PharmacyDetailInteractor(
+            presenter: viewController,
+            pharmacyDetailInfoUseCase: component.pharmacyDetailInfoUseCase,
+            hpid: hpid
+        )
         
-        let interactor = PharmacyDetailInteractor(presenter: viewController, hpid: hpid)
         interactor.listener = listener
+        
         return PharmacyDetailRouter(
             interactor: interactor,
             viewController: viewController,

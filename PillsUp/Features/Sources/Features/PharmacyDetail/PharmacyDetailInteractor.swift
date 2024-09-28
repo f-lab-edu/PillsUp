@@ -6,6 +6,8 @@
 //
 
 import ModernRIBs
+import Domain
+import Combine
 
 protocol PharmacyDetailRouting: ViewableRouting {
     func pop()
@@ -13,7 +15,7 @@ protocol PharmacyDetailRouting: ViewableRouting {
 
 protocol PharmacyDetailPresentable: Presentable {
     var listener: PharmacyDetailPresentableListener? { get set }
-    // TODO: Declare methods the interactor can invoke the presenter to present data.
+    var pharmacyDetail: PassthroughSubject<PharmacyDetail, Never> { get set }
 }
 
 protocol PharmacyDetailListener: AnyObject {
@@ -24,12 +26,16 @@ final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresen
 
     weak var router: PharmacyDetailRouting?
     weak var listener: PharmacyDetailListener?
+    
     private let hpid: String
+    private let pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase
     
     init(
         presenter: PharmacyDetailPresentable,
+        pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase,
         hpid: String
     ) {
+        self.pharmacyDetailInfoUseCase = pharmacyDetailInfoUseCase
         self.hpid = hpid
         super.init(presenter: presenter)
         presenter.listener = self
@@ -37,7 +43,13 @@ final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresen
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        // TODO: Implement business logic here.
+        Task { [weak self] in
+            guard let self else { return }
+            guard let detail = try await self.pharmacyDetailInfoUseCase.retrieve(self.hpid) else { return }
+            
+            self.presenter.pharmacyDetail.send(detail)
+        }
+        
     }
 
     override func willResignActive() {

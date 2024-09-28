@@ -13,11 +13,13 @@ import Data
 protocol AppDependency: Dependency {
     var distanceSettingUseCase: DistanceSettingUseCase { get }
     var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase { get }
+    var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase { get }
 }
 
 final class AppComponent: Component<EmptyDependency>, AppDependency {
     let distanceSettingUseCase: DistanceSettingUseCase
     let locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase
+    let pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase
 
     init() {
         self.distanceSettingUseCase = DistanceSetting(
@@ -25,6 +27,12 @@ final class AppComponent: Component<EmptyDependency>, AppDependency {
         )
         
         self.locateNearbyPharmaciesUseCase = LocateNearbyPharmacies(
+            repository: DefaultPharmacyRepository(
+                dataSource: DefaultPharmacyDataSource()
+            )
+        )
+        
+        self.pharmacyDetailInfoUseCase = PharmacyDetailInfo(
             repository: DefaultPharmacyRepository(
                 dataSource: DefaultPharmacyDataSource()
             )
