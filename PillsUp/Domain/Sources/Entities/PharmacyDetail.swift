@@ -27,34 +27,20 @@ public struct PharmacyDetailResponse {
 }
 
 public struct PharmacyDetail {
-    let dutyAddr: String
-    let dutyName: String
-    let dutyTel: String
-    let monday: DutyTime
-    let tuesday: DutyTime
-    let wednesday: DutyTime
-    let thursday: DutyTime
-    let friday: DutyTime
-    let saturday: DutyTime
-    let sunday: DutyTime
-    let holiday: DutyTime
-    let hpid: String
-    let postCode: String
-    let lat: String
-    let log: String
+    public let dutyAddr: String
+    public let dutyName: String
+    public let dutyTel: String
+    public let dutyTimes: [DutyTime]
+    public let hpid: String
+    public let postCode: String
+    public let lat: String
+    public let lng: String
     
     public init(
         dutyAddr: String,
         dutyName: String,
         dutyTel: String,
-        monday: DutyTime,
-        tuesday: DutyTime,
-        wednesday: DutyTime,
-        thursday: DutyTime,
-        friday: DutyTime,
-        saturday: DutyTime,
-        sunday: DutyTime,
-        holiday: DutyTime,
+        dutyTimes: [DutyTime],
         hpid: String,
         postCode: String,
         lat: String,
@@ -63,17 +49,10 @@ public struct PharmacyDetail {
         self.dutyAddr = dutyAddr
         self.dutyName = dutyName
         self.dutyTel = dutyTel
-        self.monday = monday
-        self.tuesday = tuesday
-        self.wednesday = wednesday
-        self.thursday = thursday
-        self.friday = friday
-        self.saturday = saturday
-        self.sunday = sunday
-        self.holiday = holiday
+        self.dutyTimes = dutyTimes
         self.hpid = hpid
         self.postCode = postCode
         self.lat = lat
-        self.log = log
+        self.lng = log
     }
 }

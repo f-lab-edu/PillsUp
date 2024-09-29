@@ -16,6 +16,8 @@ protocol PharmacyDetailRouting: ViewableRouting {
 protocol PharmacyDetailPresentable: Presentable {
     var listener: PharmacyDetailPresentableListener? { get set }
     var pharmacyDetail: PassthroughSubject<PharmacyDetail, Never> { get set }
+    
+    func fetchDetailFailure()
 }
 
 protocol PharmacyDetailListener: AnyObject {
@@ -43,11 +45,13 @@ final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresen
 
     override func didBecomeActive() {
         super.didBecomeActive()
-        Task { [weak self] in
-            guard let self else { return }
-            guard let detail = try await self.pharmacyDetailInfoUseCase.retrieve(self.hpid) else { return }
-            
-            self.presenter.pharmacyDetail.send(detail)
+        Task {
+            do {
+                guard let detail = try await self.pharmacyDetailInfoUseCase.retrieve(self.hpid) else { return }
+                self.presenter.pharmacyDetail.send(detail)
+            } catch {
+                self.presenter.fetchDetailFailure()
+            }
         }
         
     }
