@@ -73,7 +73,7 @@ final class PharmacyTableViewCell: UITableViewCell {
             return "거리를 표기할 수 없습니다."
         }
         
-        if convertMeter >= 1 {
+        if distance >= 1 {
             return "\(distance)km"
         } else {
             return "\(Int(distance * 1000))m"

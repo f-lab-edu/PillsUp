@@ -12,6 +12,7 @@ import UIKit
 protocol MainDependency: Dependency {
     var distanceSettingUseCase: DistanceSettingUseCase { get }
     var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase { get }
+    var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase { get }
 }
 
 final class MainComponent: Component<MainDependency> {
@@ -21,6 +22,10 @@ final class MainComponent: Component<MainDependency> {
     
     var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase {
         return dependency.locateNearbyPharmaciesUseCase
+    }
+    
+    var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase {
+        return dependency.pharmacyDetailInfoUseCase
     }
 }
 
