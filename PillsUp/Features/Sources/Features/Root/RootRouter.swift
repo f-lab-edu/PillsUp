@@ -39,10 +39,12 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
         let main = mainBuilder.build(withListener: interactor, navigation: navigation)
         self.mainRouting = main
         attachChild(main)
-        
-        navigation.pushViewController(main.viewControllable.uiviewController, animated: true)
+        pushViewController(main)
     }
     
+    private func pushViewController(_ routing: MainRouting) {
+        navigation.pushViewController(routing.viewControllable.uiviewController, animated: true)
+    }
 }
 
 extension UINavigationController: ViewControllable {

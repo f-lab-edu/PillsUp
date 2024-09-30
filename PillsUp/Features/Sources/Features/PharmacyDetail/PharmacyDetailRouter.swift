@@ -14,7 +14,7 @@ protocol PharmacyDetailInteractable: Interactable {
 }
 
 protocol PharmacyDetailViewControllable: ViewControllable {
-    // TODO: Declare methods the router invokes to manipulate the view hierarchy.
+    
 }
 
 final class PharmacyDetailRouter: ViewableRouter<PharmacyDetailInteractable, PharmacyDetailViewControllable>, PharmacyDetailRouting {

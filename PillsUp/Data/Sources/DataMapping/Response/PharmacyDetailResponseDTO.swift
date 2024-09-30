@@ -44,7 +44,10 @@ public struct PharmacyDetailDTO: Decodable {
 
 extension PharmacyDetailResponseDTO {
     func toDomain() -> PharmacyDetail? {
-        guard let item = self.items.first else { return nil}
+        guard let item = self.items.first else {
+            return nil
+        }
+        
         return PharmacyDetail(
             dutyAddr: item.dutyAddr,
             dutyName: item.dutyName,

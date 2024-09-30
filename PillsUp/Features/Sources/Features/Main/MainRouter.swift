@@ -42,9 +42,12 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
         self.detailRouting = detail
         
         attachChild(detail)
-        
+        pushViewController(detail)
+    }
+    
+    private func pushViewController(_ routing: PharmacyDetailRouting) {
         DispatchQueue.main.async { [weak self] in
-            self?.navigation.pushViewController(detail.viewControllable.uiviewController, animated: true)
+            self?.navigation.pushViewController(routing.viewControllable.uiviewController, animated: true)
         }
     }
 }

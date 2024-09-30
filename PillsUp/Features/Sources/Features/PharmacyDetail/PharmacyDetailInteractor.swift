@@ -58,7 +58,6 @@ final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresen
 
     override func willResignActive() {
         super.willResignActive()
-        // TODO: Pause any business logic.
     }
     
     func onTapBack() {
