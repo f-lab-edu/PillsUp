@@ -9,11 +9,11 @@ import ModernRIBs
 import UIKit
 
 protocol PharmacyDetailDependency: Dependency {
-    // TODO: Declare the set of dependencies required by this RIB, but cannot be
+    
 }
 
 final class PharmacyDetailComponent: Component<PharmacyDetailDependency> {
-    // TODO: Declare 'fileprivate' dependencies that are only used by this RIB.
+    
 }
 
 // MARK: - Builder
