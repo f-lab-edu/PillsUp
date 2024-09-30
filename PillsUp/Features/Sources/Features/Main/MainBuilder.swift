@@ -7,6 +7,7 @@
 
 import ModernRIBs
 import Domain
+import UIKit
 
 protocol MainDependency: Dependency {
     var distanceSettingUseCase: DistanceSettingUseCase { get }
@@ -26,7 +27,7 @@ final class MainComponent: Component<MainDependency> {
 // MARK: - Builder
 
 protocol MainBuildable: Buildable {
-    func build(withListener listener: MainListener) -> MainRouting
+    func build(withListener listener: MainListener, navigation: UINavigationController) -> MainRouting
 }
 
 final class MainBuilder: Builder<MainDependency>, MainBuildable {
@@ -35,8 +36,11 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
         super.init(dependency: dependency)
     }
 
-    func build(withListener listener: MainListener) -> MainRouting {
-        
+    func build(
+        withListener listener: MainListener,
+        navigation: UINavigationController
+    ) -> MainRouting {
+        let component = MainComponent(dependency: dependency)
         let viewController = MainViewController()
         let interactor = MainInteractor(
             presenter: viewController,
@@ -46,6 +50,13 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
         
         interactor.listener = listener
         
-        return MainRouter(interactor: interactor, viewController: viewController)
+        let detailBuilder = PharmacyDetailBuilder(dependency: component)
+        
+        return MainRouter(
+            interactor: interactor,
+            viewController: viewController,
+            detailBuilder: detailBuilder,
+            navigation: navigation
+        )
     }
 }

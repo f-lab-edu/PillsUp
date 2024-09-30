@@ -13,21 +13,22 @@ protocol RootInteractable: Interactable, MainListener {
     var listener: RootListener? { get set }
 }
 
-protocol RootViewControllable: ViewControllable {
-    func routeMain(_ viewController: ViewControllable)
-}
+protocol RootViewControllable: ViewControllable { }
 
 final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, RootRouting {
 
     private let mainBuilder: MainBuildable
     private var mainRouting: ViewableRouting?
+    private let navigation: UINavigationController
     
     init(
         interactor: RootInteractable,
         viewController: RootViewControllable,
-        mainBuilder: MainBuildable
+        mainBuilder: MainBuildable,
+        navigation: UINavigationController
     ) {
         self.mainBuilder = mainBuilder
+        self.navigation = navigation
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
@@ -35,13 +36,15 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     override func didLoad() {
         super.didLoad()
         
-        let main = mainBuilder.build(withListener: interactor)
+        let main = mainBuilder.build(withListener: interactor, navigation: navigation)
         self.mainRouting = main
         attachChild(main)
-        
-        viewController.routeMain(main.viewControllable)
+        pushViewController()
     }
     
+    private func pushViewController() {
+        navigation.pushViewController(main.viewControllable.uiviewController, animated: true)
+    }
 }
 
 extension UINavigationController: ViewControllable {
