@@ -14,6 +14,7 @@ import Shared
 
 public protocol PharmacyDataSource {
     func getNearbyPlaces(_ request: PharmacyRequestDTO) async throws -> PharmacyResoponseDTO
+    func getDetail(_ hpid: String) async throws -> PharmacyDetailResponseDTO
 }
 
 public final class DefaultPharmacyDataSource: PharmacyDataSource {
@@ -26,28 +27,37 @@ public final class DefaultPharmacyDataSource: PharmacyDataSource {
     public func getNearbyPlaces(_ request: PharmacyRequestDTO) async throws -> PharmacyResoponseDTO {
         return try await provider.request(.getNearbyPlaces(request))
     }
+    
+    public func getDetail(_ hpid: String) async throws -> PharmacyDetailResponseDTO {
+        return try await provider.request(.getDetail(hpid))
+    }
 }
 
 enum PharmacyType {
     case getNearbyPlaces(_ request: PharmacyRequestDTO)
+    case getDetail(_ hpid: String)
 }
 
 extension PharmacyType: TargetType {
     var baseURL: URL {
+        let baseURL = Configuration.retrieve(.baseURL)
+        let serviceKey = Configuration.retrieve(.serviceKey)
+        
         switch self {
         case .getNearbyPlaces(let request):
-            let baseURL = Configuration.retrieve(.baseURL)
-            let serviceKey = Configuration.retrieve(.serviceKey)
-            
             return URL(
                 string: "\(baseURL)/B552657/ErmctInsttInfoInqireService/getParmacyLcinfoInqire?serviceKey=\(serviceKey)&WGS84_LAT=\(request.lat)&WGS84_LON=\(request.lng)"
+            )!
+        case .getDetail(let hpid):
+            return URL(
+                string:"\(baseURL)/B552657/ErmctInsttInfoInqireService/getParmacyBassInfoInqire?serviceKey=\(serviceKey)&HPID=\(hpid)"
             )!
         }
     }
     
     var path: String {
         switch self {
-        case .getNearbyPlaces:
+        case .getNearbyPlaces, .getDetail:
             return ""
         }
     }
@@ -58,7 +68,7 @@ extension PharmacyType: TargetType {
     
     var task: Moya.Task {
         switch self {
-        case .getNearbyPlaces:
+        case .getNearbyPlaces, .getDetail:
             return .requestPlain
             
         }
