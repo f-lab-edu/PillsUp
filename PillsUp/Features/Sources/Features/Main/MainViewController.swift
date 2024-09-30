@@ -13,21 +13,33 @@ import Combine
 import CoreLocation
 import MapKit
 import Domain
+import Shared
 
 protocol MainPresentableListener: AnyObject {
-    func saveDistance(_ distance: Int)
-    func fetchPharmacy(_ location: Location)
     func viewLoaded()
+}
+
+protocol MainSaveDistanceListener: AnyObject {
+    func saveDistance(_ distance: Int)
+}
+
+protocol MainFetchPharmacyListener: AnyObject {
+    func fetchPharmacy(_ location: Location)
 }
 
 final class MainViewController: UIViewController, MainPresentable, MainViewControllable {
     
     weak var listener: MainPresentableListener?
+    weak var fetchPharmacyListener: MainFetchPharmacyListener?
+    weak var saveDistanceListener: MainSaveDistanceListener?
+    
     var currentDistanceSubject = PassthroughSubject<Int, Never>()
     var pharmacySubject = PassthroughSubject<[Pharmacy], Never>()
     private var nearbyPharmacy = [Pharmacy]()
     private var currentDistance: Int?
     private var cancellable = Set<AnyCancellable>()
+    
+    private let pharmacyTableView = UITableView()
     
     private let distanceButton = UIButton(type: .system).then {
         $0.setTitle("500m", for: .normal)
@@ -75,6 +87,9 @@ final class MainViewController: UIViewController, MainPresentable, MainViewContr
         pharmacySubject
             .sink { [weak self] pharmacy in
                 self?.nearbyPharmacy = pharmacy
+                DispatchQueue.main.async {
+                    self?.pharmacyTableView.reloadData()
+                }
                 self?.addPinAtLocation()
             }
             .store(in: &cancellable)
@@ -90,6 +105,15 @@ extension MainViewController {
         mapView.delegate = self
         locationManager.delegate = self
         
+        pharmacyTableView.delegate = self
+        pharmacyTableView.dataSource = self
+        pharmacyTableView.backgroundColor = .white
+        pharmacyTableView.separatorStyle = .none
+        pharmacyTableView.register(
+            PharmacyTableViewCell.self,
+            forCellReuseIdentifier: PharmacyTableViewCell.identifier
+        )
+        
         mapView.showsUserLocation = true
         
         locationManager.requestWhenInUseAuthorization()
@@ -100,6 +124,7 @@ extension MainViewController {
     
     private func addSubViews() {
         view.addSubview(mapView)
+        view.addSubview(pharmacyTableView)
         view.addSubview(distanceButton)
         view.addSubview(refreshButton)
         view.addSubview(trackingButton!)
@@ -123,6 +148,12 @@ extension MainViewController {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.left.right.equalToSuperview()
             make.height.equalTo(view.safeAreaLayoutGuide.layoutFrame.height / 2)
+        }
+        
+        pharmacyTableView.snp.makeConstraints { make in
+            make.top.equalTo(mapView.snp.bottom)
+            make.left.right.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide)
         }
         
         trackingButton?.snp.makeConstraints { make in
@@ -149,49 +180,37 @@ extension MainViewController {
         }), for: .touchUpInside)
     }
     
-    func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
-        let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
-                                                  latitudinalMeters: regionRadius,
-                                                  longitudinalMeters: regionRadius)
-        mapView.setRegion(coordinateRegion, animated: true)
-    }
-    
-    func addPinAtLocation(
-        latitude: CLLocationDegrees,
-        longitude: CLLocationDegrees,
-        title: String
+    private func centerMapOnLocation(
+        location: CLLocation,
+        regionRadius: CLLocationDistance = 1000
     ) {
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        annotation.title = title
-        mapView.addAnnotation(annotation)
-    }
-    private func centerMapOnLocation(location: CLLocation, regionRadius: CLLocationDistance = 1000) {
         let coordinateRegion = MKCoordinateRegion(center: location.coordinate,
                                                   latitudinalMeters: regionRadius,
                                                   longitudinalMeters: regionRadius)
-        fetchPharmacy(
-            lat: coordinateRegion.center.latitude,
-            lng: coordinateRegion.center.longitude
-        )
+        fetchPharmacy(coordinateRegion.center)
         mapView.setRegion(coordinateRegion, animated: true)
     }
     
     private func addPinAtLocation() {
         nearbyPharmacy.forEach { pharmacy in
-            let annotation = MKPointAnnotation()
             let lat = Double(pharmacy.latitude) ?? 0.0
             let lng = Double(pharmacy.longitude) ?? 0.0
-            annotation.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-            annotation.title = pharmacy.dutyName
+            
+            let annotation = PharmacyAnnotation(
+                coordinate: CLLocationCoordinate2D(latitude: lat, longitude: lng),
+                title: pharmacy.dutyName,
+                subtitle: nil,
+                id: pharmacy.hpid
+            )
+            
             mapView.addAnnotation(annotation)
         }
         
     }
     
-    private func fetchPharmacy(lat: Double, lng: Double) {
-        let location = Location(lat: lat, lng: lng)
-        listener?.fetchPharmacy(location)
+    private func fetchPharmacy(_ location: CLLocationCoordinate2D) {
+        let location = Location(lat: location.latitude, lng: location.longitude)
+        fetchPharmacyListener?.fetchPharmacy(location)
     }
     
     private func refreshAndFetchData() {
@@ -205,14 +224,17 @@ extension MainViewController {
 extension MainViewController: DistanceDelegate {
     func didSelectDistance(_ distance: Int) {
         self.dismiss(animated: false)
-        listener?.saveDistance(distance)
+        saveDistanceListener?.saveDistance(distance)
         self.refreshAndFetchData()
     }
 }
 
 // MARK: - CLLocationManagerDelegate
 extension MainViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(
+        _ manager: CLLocationManager,
+        didUpdateLocations locations: [CLLocation]
+    ) {
         guard let location = locations.first else { return }
              
         if isMapInitialized {
@@ -221,10 +243,7 @@ extension MainViewController: CLLocationManagerDelegate {
         }
         
         if isRefesh {
-            fetchPharmacy(
-                lat: location.coordinate.latitude,
-                lng: location.coordinate.longitude
-            )
+            fetchPharmacy(location.coordinate)
             isRefesh = false
         }
     }
@@ -233,21 +252,33 @@ extension MainViewController: CLLocationManagerDelegate {
 // MARK: - MKMapViewDelegate
 extension MainViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        guard let annotation = view.annotation else { return }
+        guard let annotation = view.annotation as? PharmacyAnnotation else { return }
+        // TODO: - annotation.id 넘기기
     }
 }
 
-// MARK: - CLLocationManagerDelegate
-extension MainViewController: CLLocationManagerDelegate {
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first, isMapInitialized {
-            centerMapOnLocation(location: location)
-            isMapInitialized = false
-        }
+// MARK: - TableViewDataSource, TableViewDelegate
+extension MainViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        nearbyPharmacy.count
     }
-}
-
-// MARK: - MKMapViewDelegate
-extension MainViewController: MKMapViewDelegate {
     
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: PharmacyTableViewCell.identifier,
+            for: indexPath
+        ) as? PharmacyTableViewCell else { return UITableViewCell() }
+        
+        cell.bind(nearbyPharmacy[indexPath.row])
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        56
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        // TODO: - nearbyPharmacy[indexPath.row].hpid 넘기기
+    }
 }

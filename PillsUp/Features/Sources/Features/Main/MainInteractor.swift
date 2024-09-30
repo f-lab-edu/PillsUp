@@ -15,6 +15,8 @@ protocol MainRouting: ViewableRouting {
 
 protocol MainPresentable: Presentable {
     var listener: MainPresentableListener? { get set }
+    var fetchPharmacyListener: MainFetchPharmacyListener? { get set }
+    var saveDistanceListener: MainSaveDistanceListener? { get set }
     var currentDistanceSubject: PassthroughSubject<Int, Never> { get set }
     var pharmacySubject: PassthroughSubject<[Pharmacy], Never> { get }
 }
@@ -23,7 +25,7 @@ protocol MainListener: AnyObject {
     // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
 }
 
-final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable, MainPresentableListener {
+final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable  {
 
     weak var router: MainRouting?
     weak var listener: MainListener?
@@ -37,8 +39,12 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     ) {
         self.distanceUseCase = distanceUseCase
         self.locateNearbyPharmaciesUseCase = locateNearbyPharmaciesUseCase
+        
         super.init(presenter: presenter)
+        
         presenter.listener = self
+        presenter.fetchPharmacyListener = self
+        presenter.saveDistanceListener = self
     }
 
     override func didBecomeActive() {
@@ -50,18 +56,15 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
         super.willResignActive()
         // TODO: Pause any business logic.
     }
-    
+}
+
+extension MainInteractor: MainPresentableListener {
     func viewLoaded() {
         presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
-        
-        
     }
-    
-    func saveDistance(_ distance: Int) {
-        try? distanceUseCase.save(distance)
-        presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
-    }
-    
+}
+
+extension MainInteractor: MainFetchPharmacyListener {
     func fetchPharmacy(_ location: Location) {
         Task {
             let distance = Double(distanceUseCase.retrieve()) / 1000.0
@@ -71,5 +74,12 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
             
             presenter.pharmacySubject.send(result)
         }
+    }
+}
+
+extension MainInteractor: MainSaveDistanceListener {
+    func saveDistance(_ distance: Int) {
+        try? distanceUseCase.save(distance)
+        presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
     }
 }
