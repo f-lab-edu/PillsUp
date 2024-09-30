@@ -5,11 +5,13 @@
 //  Created by Junyoung on 9/25/24.
 //
 
-import ModernRIBs
+import Combine
 import UIKit
+
+import ModernRIBs
 import SnapKit
 import Then
-import Combine
+
 import Domain
 
 protocol PharmacyDetailPresentableListener: AnyObject {
