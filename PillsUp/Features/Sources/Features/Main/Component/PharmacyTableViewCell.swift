@@ -69,13 +69,14 @@ final class PharmacyTableViewCell: UITableViewCell {
     }
     
     private func convertToMeters(from distance: String) -> String {
-        guard let distance = Double(distance) else { return "거리를 표기할 수 없습니다." }
-        let convertMeter = distance * 1000
+        guard let distance = Double(distance) else {
+            return "거리를 표기할 수 없습니다."
+        }
         
-        if convertMeter > 1000 {
+        if convertMeter >= 1 {
             return "\(distance)km"
         } else {
-            return "\(Int(convertMeter))m"
+            return "\(Int(distance * 1000))m"
         }
     }
 }
