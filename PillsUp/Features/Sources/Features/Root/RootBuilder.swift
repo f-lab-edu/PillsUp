@@ -43,15 +43,17 @@ public final class RootBuilder: Builder<RootDependency>, RootBuildable {
 
     public func build(_ navigationController: UINavigationController) -> LaunchRouting {
         let component = RootComponent(dependency: dependency)
-        let viewController = RootViewController(navigation: navigationController)
+        let viewController = RootViewController()
         let interactor = RootInteractor(presenter: viewController)
         
         let mainBuilder = MainBuilder(dependency: component)
+        let loginBuilder = LoginBuilder(dependency: component)
         
         return RootRouter(
             interactor: interactor,
             viewController: viewController,
             mainBuilder: mainBuilder,
+            loginBuilder: loginBuilder,
             navigation: navigationController
         )
     }

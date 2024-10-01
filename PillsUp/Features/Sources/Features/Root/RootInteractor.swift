@@ -5,10 +5,13 @@
 //  Created by Junyoung on 9/2/24.
 //
 
+import UIKit
+
 import ModernRIBs
 
 public protocol RootRouting: ViewableRouting {
-    
+    func pushToMain()
+    func pushToLogin()
 }
 
 public protocol RootPresentable: Presentable {
@@ -33,6 +36,9 @@ public final class RootInteractor: PresentableInteractor<RootPresentable>, RootI
     public override func didBecomeActive() {
         super.didBecomeActive()
         
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            self.router?.pushToMain()
+        }
     }
 
     public override func willResignActive() {
