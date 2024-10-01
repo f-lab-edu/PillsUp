@@ -36,8 +36,8 @@ public final class RootInteractor: PresentableInteractor<RootPresentable>, RootI
     public override func didBecomeActive() {
         super.didBecomeActive()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            self.router?.pushToMain()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            self.router?.pushToLogin()
         }
     }
 
