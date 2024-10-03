@@ -15,6 +15,9 @@ enum AppData {
     @UserDefault(key: Key.distance.rawValue, defaultValue: 500)
     static var distance: Int
     
+    @UserDefault(key: Key.distance.rawValue, defaultValue: nil)
+    static var appleUserId: String?
+    
     @propertyWrapper
     public struct UserDefault<T> {
         private let key: String
