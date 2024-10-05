@@ -7,14 +7,17 @@
 
 import UIKit
 
+import Domain
 import ModernRIBs
 
 protocol LoginDependency: Dependency {
-    
+    var authenticationFacade: AuthenticationFacade { get }
 }
 
 final class LoginComponent: Component<LoginDependency> {
-    
+    var authenticationFacade: AuthenticationFacade {
+        return dependency.authenticationFacade
+    }
 }
 
 // MARK: - Builder
@@ -33,12 +36,21 @@ final class LoginBuilder: Builder<LoginDependency>, LoginBuildable {
         navigation: UINavigationController
     ) -> LoginRouting {
         let component = LoginComponent(dependency: dependency)
-        let viewController = LoginViewController()
-        let interactor = LoginInteractor(presenter: viewController)
+        var viewController: LoginViewController!
+        
+        DispatchQueue.main.sync {
+            viewController = LoginViewController()
+        }
+        
+        let interactor = LoginInteractor(
+            presenter: viewController,
+            authenticationFacade: component.authenticationFacade
+        )
         interactor.listener = listener
         return LoginRouter(
             interactor: interactor,
-            viewController: viewController
+            viewController: viewController,
+            navigation: navigation
         )
     }
 }

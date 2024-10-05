@@ -40,13 +40,18 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
     override init(dependency: MainDependency) {
         super.init(dependency: dependency)
     }
-
+    
     func build(
         withListener listener: MainListener,
         navigation: UINavigationController
     ) -> MainRouting {
         let component = MainComponent(dependency: dependency)
-        let viewController = MainViewController()
+        
+        var viewController: MainViewController!
+        DispatchQueue.main.sync {
+            viewController = MainViewController()
+        }
+        
         let interactor = MainInteractor(
             presenter: viewController,
             distanceUseCase: dependency.distanceSettingUseCase,

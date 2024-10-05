@@ -11,6 +11,9 @@ import Foundation
 import Domain
 
 public final class AppleLoginAthenticationRepository: AuthenticationManagerRepository {
+    
+    public init() { }
+    
     public func isUserAuthenticated() async throws -> Bool {
         guard let userId = AppData.appleUserId else { return false }
         return try await authentication(userId: userId)

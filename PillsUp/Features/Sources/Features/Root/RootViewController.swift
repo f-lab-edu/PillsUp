@@ -12,7 +12,7 @@ import Then
 import SnapKit
 
 public protocol RootPresentableListener: AnyObject {
-    
+    func willAppear()
 }
 
 final class RootViewController: UIViewController, RootPresentable, RootViewControllable {
@@ -41,6 +41,11 @@ final class RootViewController: UIViewController, RootPresentable, RootViewContr
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        listener?.willAppear()
     }
 }
 

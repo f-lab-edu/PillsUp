@@ -11,6 +11,7 @@ import UIKit
 import ModernRIBs
 
 protocol LoginPresentableListener: AnyObject {
+    func register(_ userId: String)
 }
 
 final class LoginViewController: UIViewController, LoginPresentable, LoginViewControllable {
@@ -89,8 +90,7 @@ extension LoginViewController: ASAuthorizationControllerDelegate,
         didCompleteWithAuthorization authorization: ASAuthorization
     ) {
         guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential else { return }
-        // UserID 저장
-        print("useridentifier: \(credential.user)")
+        listener?.register(credential.user)
         
     }
     

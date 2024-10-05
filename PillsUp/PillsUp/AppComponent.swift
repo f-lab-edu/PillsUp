@@ -14,12 +14,14 @@ protocol AppDependency: Dependency {
     var distanceSettingUseCase: DistanceSettingUseCase { get }
     var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase { get }
     var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase { get }
+    var authenticationFacade: AuthenticationFacade { get }
 }
 
 final class AppComponent: Component<EmptyDependency>, AppDependency {
     let distanceSettingUseCase: DistanceSettingUseCase
     let locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase
     let pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase
+    let authenticationFacade: AuthenticationFacade
 
     init() {
         self.distanceSettingUseCase = DistanceSetting(
@@ -36,6 +38,14 @@ final class AppComponent: Component<EmptyDependency>, AppDependency {
             repository: DefaultPharmacyRepository(
                 dataSource: DefaultPharmacyDataSource()
             )
+        )
+        
+        let authenticationManagerRepository = AppleLoginAthenticationRepository()
+        
+        self.authenticationFacade = AppleAuthentication(
+            checkAuthenticationUseCase: CheckAppleAuthenticationUseCase(repository: authenticationManagerRepository),
+            registerAuthenticationUseCase: RegisterAppleAuthentication(repository: authenticationManagerRepository),
+            removeAuthenticationUseCase: RemoveAppleAuthentication(repository: authenticationManagerRepository)
         )
 
         super.init(dependency: EmptyComponent())

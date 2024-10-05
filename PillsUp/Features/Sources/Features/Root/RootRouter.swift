@@ -55,11 +55,15 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     }
     
     private func pushRootVC() {
-        navigation.pushViewController(self.viewController.uiviewController, animated: false)
+        DispatchQueue.main.async {
+            self.navigation.pushViewController(self.viewController.uiviewController, animated: false)
+        }
     }
     
     private func pushViewController(_ routing: ViewableRouting) {
-        navigation.pushViewController(routing.viewControllable.uiviewController, animated: false)
+        DispatchQueue.main.async {
+            self.navigation.pushViewController(routing.viewControllable.uiviewController, animated: false)
+        }
     }
     
 }
