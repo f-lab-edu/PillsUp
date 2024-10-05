@@ -14,6 +14,16 @@
 
 <br>
 
+# 📚 RIBs 구조
+![PillsUp_RIBs](https://github.com/user-attachments/assets/34590925-97cb-434a-9a31-edcf5cb1e150)
+
+- **RootRIB:** 앱의 진입, 로그인 정보를 체크하고 로그인 여부에 따라 LoginRIB 혹은 MainRIB을 Attach합니다.
+- **LoginRIB:** 로그인을 시도하고 인증 정보를 저장하는 RIB입니다.
+- **MainRIB:** 지도에 약국 정보를 표현해주는 RIB입니다.
+- **DetailRIB:** 약국 상세 정보를 볼 수 있는 RIB입니다.
+
+<br>
+
 # 🎯 프로젝트 목표
 1. 객체지향의 원리를 적용하여 코드 작성
    - 역할과 책임을 명확하게 분리하여 결합은 낮고 응집도는 높은 코드를 작성합니다.
