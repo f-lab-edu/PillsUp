@@ -13,6 +13,7 @@ public protocol RootDependency: Dependency {
     var distanceSettingUseCase: DistanceSettingUseCase { get }
     var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase { get }
     var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase { get }
+    var authenticationFacade: AuthenticationFacade { get }
 }
 
 final class RootComponent: Component<RootDependency> {
@@ -26,6 +27,10 @@ final class RootComponent: Component<RootDependency> {
     
     var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase {
         return dependency.pharmacyDetailInfoUseCase
+    }
+    
+    var authenticationFacade: AuthenticationFacade {
+        return dependency.authenticationFacade
     }
 }
 
@@ -43,15 +48,20 @@ public final class RootBuilder: Builder<RootDependency>, RootBuildable {
 
     public func build(_ navigationController: UINavigationController) -> LaunchRouting {
         let component = RootComponent(dependency: dependency)
-        let viewController = RootViewController(navigation: navigationController)
-        let interactor = RootInteractor(presenter: viewController)
+        let viewController = RootViewController()
+        let interactor = RootInteractor(
+            presenter: viewController,
+            authenticationFacade: component.authenticationFacade
+        )
         
         let mainBuilder = MainBuilder(dependency: component)
+        let loginBuilder = LoginBuilder(dependency: component)
         
         return RootRouter(
             interactor: interactor,
             viewController: viewController,
             mainBuilder: mainBuilder,
+            loginBuilder: loginBuilder,
             navigation: navigationController
         )
     }

@@ -49,6 +49,7 @@
 
 /* Begin PBXFileReference section */
 		0810F1AA2C931C7A00A5B389 /* NetworkKit */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = NetworkKit; sourceTree = "<group>"; };
+		083598D72CAC002700D62611 /* PillsUp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PillsUp.entitlements; sourceTree = "<group>"; };
 		084696672C85F8C300AFF0C1 /* AppComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppComponent.swift; sourceTree = "<group>"; };
 		086C3A542C9726FE003890A1 /* Configuration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Configuration.plist; sourceTree = "<group>"; };
 		08AC45B12C89D4CA00569FDC /* AppComponent+Root.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppComponent+Root.swift"; sourceTree = "<group>"; };
@@ -141,6 +142,7 @@
 		08C7A94B2C7CA28C000A339D /* PillsUp */ = {
 			isa = PBXGroup;
 			children = (
+				083598D72CAC002700D62611 /* PillsUp.entitlements */,
 				08C7A94C2C7CA28C000A339D /* AppDelegate.swift */,
 				08C7A94E2C7CA28C000A339D /* SceneDelegate.swift */,
 				084696672C85F8C300AFF0C1 /* AppComponent.swift */,
@@ -495,6 +497,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PillsUp/PillsUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SUMATJC294;
@@ -522,6 +525,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PillsUp/PillsUp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = SUMATJC294;

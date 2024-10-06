@@ -19,6 +19,7 @@ jobs:
          -project PillsUp/PillsUp.xcodeproj \
          -scheme DomainTests \
          -destination 'platform=iOS Simulator,name=iPhone 14,OS=15' \
+         -only-testing:DomainTests \
          -enableCodeCoverage YES \
          -allowProvisioningUpdates
          
