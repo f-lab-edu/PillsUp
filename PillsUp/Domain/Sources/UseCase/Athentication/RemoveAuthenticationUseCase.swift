@@ -20,6 +20,6 @@ public final class RemoveAppleAuthentication: RemoveAuthenticationUseCase {
     }
     
     public func execute() async throws {
-        try await repository.deleteAuthenticationData()
+        try await repository.delete()
     }
 }

@@ -43,9 +43,9 @@ final class AppComponent: Component<EmptyDependency>, AppDependency {
         let authenticationManagerRepository = AppleLoginAthenticationRepository()
         
         self.authenticationFacade = AppleAuthentication(
-            checkAuthenticationUseCase: CheckAppleAuthenticationUseCase(repository: authenticationManagerRepository),
-            registerAuthenticationUseCase: RegisterAppleAuthentication(repository: authenticationManagerRepository),
-            removeAuthenticationUseCase: RemoveAppleAuthentication(repository: authenticationManagerRepository)
+            checkUseCase: CheckAppleAuthenticationUseCase(repository: authenticationManagerRepository),
+            registerUseCase: RegisterAppleAuthentication(repository: authenticationManagerRepository),
+            removeUseCase: RemoveAppleAuthentication(repository: authenticationManagerRepository)
         )
 
         super.init(dependency: EmptyComponent())

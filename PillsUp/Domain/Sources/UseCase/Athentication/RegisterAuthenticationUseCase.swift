@@ -20,6 +20,6 @@ public final class RegisterAppleAuthentication: RegisterAuthenticationUseCase {
     }
     
     public func execute(data: String) async throws {
-        try await repository.saveAuthenticationData(data)
+        try await repository.save(data)
     }
 }

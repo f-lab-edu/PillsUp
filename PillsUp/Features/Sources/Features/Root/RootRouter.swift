@@ -43,15 +43,19 @@ final class RootRouter: LaunchRouter<RootInteractable, RootViewControllable>, Ro
     func pushToMain() {
         let main = mainBuilder.build(withListener: interactor, navigation: navigation)
         self.mainRouting = main
-        attachChild(main)
-        pushViewController(main)
+        attach(main)
     }
     
     func pushToLogin() {
         let login = loginBuilder.build(withListener: interactor, navigation: navigation)
         self.loginRouting = login
-        attachChild(login)
-        pushViewController(login)
+        attach(login)
+    }
+    
+    private func attach(_ routing: ViewableRouting) {
+        attachChild(routing)
+        pushViewController(routing)
+        
     }
     
     private func pushRootVC() {

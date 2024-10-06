@@ -12,8 +12,8 @@ public protocol AuthenticationManagerRepository {
     func isUserAuthenticated() async throws -> Bool
     
     /// 인증 데이터 저장
-    func saveAuthenticationData(_ data: String) async throws
+    func save(_ data: String) async throws
     
     /// 저장된 인증 데이터 삭제
-    func deleteAuthenticationData() async throws
+    func delete() async throws
 }

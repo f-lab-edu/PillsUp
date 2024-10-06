@@ -15,29 +15,29 @@ public protocol AuthenticationFacade {
 
 public final class AppleAuthentication: AuthenticationFacade {
     
-    private let checkAuthenticationUseCase: CheckAuthenticationUseCase
-    private let registerAuthenticationUseCase: RegisterAuthenticationUseCase
-    private let removeAuthenticationUseCase: RemoveAuthenticationUseCase
+    private let checkUseCase: CheckAuthenticationUseCase
+    private let registerUseCase: RegisterAuthenticationUseCase
+    private let removeUseCase: RemoveAuthenticationUseCase
     
     public init(
-        checkAuthenticationUseCase: CheckAuthenticationUseCase,
-        registerAuthenticationUseCase: RegisterAuthenticationUseCase,
-        removeAuthenticationUseCase: RemoveAuthenticationUseCase
+        checkUseCase: CheckAuthenticationUseCase,
+        registerUseCase: RegisterAuthenticationUseCase,
+        removeUseCase: RemoveAuthenticationUseCase
     ) {
-        self.checkAuthenticationUseCase = checkAuthenticationUseCase
-        self.registerAuthenticationUseCase = registerAuthenticationUseCase
-        self.removeAuthenticationUseCase = removeAuthenticationUseCase
+        self.checkUseCase = checkUseCase
+        self.registerUseCase = registerUseCase
+        self.removeUseCase = removeUseCase
     }
     
     public func check() async throws -> Bool {
-        try await checkAuthenticationUseCase.exectue()
+        try await checkUseCase.exectue()
     }
     
     public func register(data: String) async throws {
-        try await registerAuthenticationUseCase.execute(data: data)
+        try await registerUseCase.execute(data: data)
     }
     
     public func remove() async throws {
-        try await removeAuthenticationUseCase.execute()
+        try await removeUseCase.execute()
     }
 }

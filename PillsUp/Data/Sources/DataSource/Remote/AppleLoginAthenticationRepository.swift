@@ -15,15 +15,17 @@ public final class AppleLoginAthenticationRepository: AuthenticationManagerRepos
     public init() { }
     
     public func isUserAuthenticated() async throws -> Bool {
-        guard let userId = AppData.appleUserId else { return false }
+        guard let userId = AppData.appleUserId else {
+            return false
+        }
         return try await authentication(userId: userId)
     }
     
-    public func saveAuthenticationData(_ data: String) async throws {
+    public func save(_ data: String) async throws {
         AppData.appleUserId = data
     }
     
-    public func deleteAuthenticationData() async throws {
+    public func delete() async throws {
         AppData.appleUserId = nil
     }
 }
