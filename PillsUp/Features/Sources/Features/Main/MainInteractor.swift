@@ -79,7 +79,7 @@ extension MainInteractor: MainFetchPharmacyListener {
 
 extension MainInteractor: MainSaveDistanceListener {
     func saveDistance(_ distance: Int) {
-        try! distanceUseCase.save(distance)
+        try? distanceUseCase.save(distance)
         presenter.currentDistanceSubject.send(distanceUseCase.retrieve())
     }
 }
