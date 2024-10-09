@@ -11,10 +11,10 @@
 echo "Running SwiftLint..."
 swiftlint
 
-if [ $? != 0 ]; then
-  echo "SwiftLint failed. Please fix the issues before committing."
-  exit 1
-fi
+# if [ $? != 0 ]; then
+#   echo "SwiftLint failed. Please fix the issues before committing."
+#   exit 1
+# fi
 
 # LINT=$(which swiftlint)
 
@@ -45,33 +45,33 @@ fi
 # fi
 
 # # lint rule 정의 파일
-# RESULT=$($LINT lint --quiet --config .swiftlint.yml)
+RESULT=$($LINT lint --quiet --config .swiftlint.yml)
 
-# if [ "$RESULT" == '' ]; then
-# 	echo "✨  SwiftLint 적용을 완료했습니다!! 고생하셨습니다:)\n"
-# else
-# 	echo ""
-# 	echo "✔ SwiftLint Failed 아래 내용을 확인해주세요:\n"
-#   while read -r line; do
-#     FILEPATH=$(echo $line | cut -d : -f 1)
-#     L=$(echo $line | cut -d : -f 2)
-#     C=$(echo $line | cut -d : -f 3)
-#     TYPE=$(echo $line | cut -d : -f 4 | cut -c 2-)
-#     MESSAGE=$(echo $line | cut -d : -f 5 | cut -c 2-)
-#     DESCRIPTION=$(echo $line | cut -d : -f 6 | cut -c 2-)
-#     if [ $TYPE == 'warning' ]; then
-#       echo "\n 🚧  $TYPE\n"
-#       # warning 타입은 오류메시지만 표시하고 커밋을 허용하고 싶다면 line 40~42 주석 해제.
-#       # printf "    $FILEPATH:$L:$C\n"
-#       # printf "    📌  $MESSAGE: - $DESCRIPTION\n"
-#       # exit 0
-#     elif [ $TYPE == 'error' ]; then
-#       echo "\n 🚨  $TYPE\n"
-#     fi
-#     echo "    ✔ $FILEPATH:$L:$C\n"
-#     echo "    📌 $MESSAGE: - $DESCRIPTION\n"
-#   done <<< "$RESULT"
+if [ "$RESULT" == '' ]; then
+	echo "✨  SwiftLint 적용을 완료했습니다!! 고생하셨습니다:)\n"
+else
+	echo ""
+	echo "✔ SwiftLint Failed 아래 내용을 확인해주세요:\n"
+  while read -r line; do
+    FILEPATH=$(echo $line | cut -d : -f 1)
+    L=$(echo $line | cut -d : -f 2)
+    C=$(echo $line | cut -d : -f 3)
+    TYPE=$(echo $line | cut -d : -f 4 | cut -c 2-)
+    MESSAGE=$(echo $line | cut -d : -f 5 | cut -c 2-)
+    DESCRIPTION=$(echo $line | cut -d : -f 6 | cut -c 2-)
+    if [ $TYPE == 'warning' ]; then
+      echo "\n 🚧  $TYPE\n"
+      # warning 타입은 오류메시지만 표시하고 커밋을 허용하고 싶다면 line 40~42 주석 해제.
+      # printf "    $FILEPATH:$L:$C\n"
+      # printf "    📌  $MESSAGE: - $DESCRIPTION\n"
+      # exit 0
+    elif [ $TYPE == 'error' ]; then
+      echo "\n 🚨  $TYPE\n"
+    fi
+    echo "    ✔ $FILEPATH:$L:$C\n"
+    echo "    📌 $MESSAGE: - $DESCRIPTION\n"
+  done <<< "$RESULT"
 
-#   printf "\n 🚑  커밋실패!! Swiftlint rule에 맞게 코드를 변경해주세요:)\n"
-#   exit 1
-# fi
+  printf "\n 🚑  커밋실패!! Swiftlint rule에 맞게 코드를 변경해주세요:)\n"
+  exit 1
+fi
