@@ -9,7 +9,7 @@
 
 # SwiftLint 실행
 echo "Running SwiftLint..."
-RESULT=$(swiftlint lint --use-stdin --quiet <<< "$(cat $FILES)")
+swiftlint
 
 if [ $? -eq 0 ]; then
 	printf "✨  SwiftLint 적용을 완료했습니다!! 고생하셨습니다:)\n"
