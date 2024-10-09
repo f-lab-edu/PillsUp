@@ -20,9 +20,7 @@ protocol PharmacyDetailPresentable: Presentable {
     func fetchDetailFailure()
 }
 
-protocol PharmacyDetailListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
-}
+protocol PharmacyDetailListener: AnyObject { }
 
 final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresentable>, PharmacyDetailInteractable, PharmacyDetailPresentableListener {
 
