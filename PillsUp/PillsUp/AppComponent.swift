@@ -47,7 +47,7 @@ final class AppComponent: Component<EmptyDependency>, AppDependency {
             registerUseCase: RegisterAppleAuthentication(repository: authenticationManagerRepository),
             removeUseCase: RemoveAppleAuthentication(repository: authenticationManagerRepository)
         )
-
+        
         super.init(dependency: EmptyComponent())
     }
 }
