@@ -18,7 +18,7 @@ protocol MainViewControllable: ViewControllable { }
 final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, MainRouting {
     
     private let detailBuilder: PharmacyDetailBuildable
-    private var detailRouting: ViewableRouting?
+    private var detailRouting: ViewableRouting!
     private let navigation: UINavigationController
     
     init(
