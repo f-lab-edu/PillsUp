@@ -22,7 +22,7 @@ protocol PharmacyDetailPresentable: Presentable {
 
 protocol PharmacyDetailListener: AnyObject { }
 
-final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresentable>,PharmacyDetailInteractable, PharmacyDetailPresentableListener {
+final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresentable>, PharmacyDetailInteractable, PharmacyDetailPresentableListener {
 
     weak var router: PharmacyDetailRouting?
     weak var listener: PharmacyDetailListener?
