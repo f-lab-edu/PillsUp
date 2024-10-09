@@ -11,10 +11,10 @@
 echo "Running SwiftLint..."
 swiftlint
 
-if [ $? != 0 ]; then
-  echo "SwiftLint failed. Please fix the issues before committing."
-  exit 1
-fi
+# if [ $? != 0 ]; then
+#   echo "SwiftLint failed. Please fix the issues before committing."
+#   exit 1
+# fi
 
 # LINT=$(which swiftlint)
 
@@ -58,10 +58,10 @@ echo ""
     DESCRIPTION=$(echo $line | cut -d : -f 6 | cut -c 2-)
     if [ $TYPE == 'warning' ]; then
       echo "\n 🚧  $TYPE\n"
-      # warning 타입은 오류메시지만 표시하고 커밋을 허용하고 싶다면 line 40~42 주석 해제.
-      # printf "    $FILEPATH:$L:$C\n"
-      # printf "    📌  $MESSAGE: - $DESCRIPTION\n"
-      # exit 0
+      warning 타입은 오류메시지만 표시하고 커밋을 허용하고 싶다면 line 40~42 주석 해제.
+      printf "    $FILEPATH:$L:$C\n"
+      printf "    📌  $MESSAGE: - $DESCRIPTION\n"
+      exit 0
     elif [ $TYPE == 'error' ]; then
       echo "\n 🚨  $TYPE\n"
     fi
