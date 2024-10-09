@@ -25,7 +25,7 @@ protocol PharmacyDetailListener: AnyObject { }
 final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresentable>, PharmacyDetailInteractable, PharmacyDetailPresentableListener {
 
     weak var router: PharmacyDetailRouting!
-    weak var listener: PharmacyDetailListener?
+    weak var listener: PharmacyDetailListener!
     
     private let hpid: String
     private let pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase
