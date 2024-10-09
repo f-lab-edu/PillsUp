@@ -16,11 +16,11 @@ protocol MainInteractable: Interactable, PharmacyDetailListener {
 protocol MainViewControllable: ViewControllable { }
 
 final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, MainRouting {
-    
+
     private let detailBuilder: PharmacyDetailBuildable
     private var detailRouting: ViewableRouting?
     private let navigation: UINavigationController
-    
+
     init(
         interactor: MainInteractable,
         viewController: MainViewControllable,
@@ -32,7 +32,7 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
-    
+
     func pushToDetail(_ hpid: String) {
         let detail = detailBuilder.build(
             withListener: interactor,
@@ -40,11 +40,11 @@ final class MainRouter: ViewableRouter<MainInteractable, MainViewControllable>, 
             hpid: hpid
         )
         self.detailRouting = detail
-        
+
         attachChild(detail)
         pushViewController(detail)
     }
-    
+
     private func pushViewController(_ routing: PharmacyDetailRouting) {
         DispatchQueue.main.async { [weak self] in
             self?.navigation.pushViewController(routing.viewControllable.uiviewController, animated: true)

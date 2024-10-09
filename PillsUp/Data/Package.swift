@@ -9,21 +9,20 @@ let package = Package(
     products: [
         .library(
             name: "Data",
-            targets: ["Data"]),
+            targets: ["Data"])
     ],
     dependencies: [
-        .package(path: "../NetworkKit"),
+        .package(path: "../NetworkKit")
     ],
     targets: [
         .target(
             name: "Data",
             dependencies: [
-                .product(name: "NetworkKit", package: "NetworkKit"),
+                .product(name: "NetworkKit", package: "NetworkKit")
             ]
         ),
         .testTarget(
             name: "DataTests",
-            dependencies: ["Data"]),
+            dependencies: ["Data"])
     ]
 )
-

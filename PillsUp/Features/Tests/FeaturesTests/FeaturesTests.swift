@@ -3,6 +3,5 @@ import XCTest
 
 final class FeaturesTests: XCTestCase {
     func testExample() throws {
-        // TODO: - Test Code 작성 예정
     }
 }

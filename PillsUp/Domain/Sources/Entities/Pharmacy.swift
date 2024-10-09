@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Junyoung on 9/14/24.
 //
@@ -13,7 +13,7 @@ public struct PharmacyResponse {
     public let numOfRows: String?
     public let pageNo: String?
     public let totalCount: String?
-    
+
     public init(
         items: [Pharmacy],
         numOfRows: String?,
@@ -42,7 +42,7 @@ public struct Pharmacy {
     public let longitude: String
     public let rnum: String
     public let startTime: String
-    
+
     public init(
         cnt: String,
         distance: String,

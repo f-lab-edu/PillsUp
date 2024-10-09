@@ -19,11 +19,11 @@ final class MainComponent: Component<MainDependency> {
     var distanceSettingUseCase: DistanceSettingUseCase {
         return dependency.distanceSettingUseCase
     }
-    
+
     var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase {
         return dependency.locateNearbyPharmaciesUseCase
     }
-    
+
     var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase {
         return dependency.pharmacyDetailInfoUseCase
     }
@@ -40,28 +40,28 @@ final class MainBuilder: Builder<MainDependency>, MainBuildable {
     override init(dependency: MainDependency) {
         super.init(dependency: dependency)
     }
-    
+
     func build(
         withListener listener: MainListener,
         navigation: UINavigationController
     ) -> MainRouting {
         let component = MainComponent(dependency: dependency)
-        
+
         var viewController: MainViewController!
         DispatchQueue.main.sync {
             viewController = MainViewController()
         }
-        
+
         let interactor = MainInteractor(
             presenter: viewController,
             distanceUseCase: dependency.distanceSettingUseCase,
             locateNearbyPharmaciesUseCase: dependency.locateNearbyPharmaciesUseCase
         )
-        
+
         interactor.listener = listener
-        
+
         let detailBuilder = PharmacyDetailBuilder(dependency: component)
-        
+
         return MainRouter(
             interactor: interactor,
             viewController: viewController,

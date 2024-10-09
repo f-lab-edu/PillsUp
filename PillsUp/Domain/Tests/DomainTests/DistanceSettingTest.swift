@@ -9,17 +9,17 @@ import XCTest
 @testable import Domain
 
 final class DistanceSettingTest: XCTestCase {
-    
+
     private var distanceSettingUseCase: DistanceSettingUseCase!
     private var mockAppDataRepository: DistanceSettingRepository!
-    
+
     override func setUpWithError() throws {
         mockAppDataRepository = MockAppDataRepository()
         distanceSettingUseCase = DistanceSetting(
             distanceRepository: mockAppDataRepository
         )
     }
-    
+
     func test_500초과거리입력() {
         XCTAssertThrowsError(try distanceSettingUseCase.save(600)) { error in
             XCTAssertEqual(
@@ -28,7 +28,7 @@ final class DistanceSettingTest: XCTestCase {
             )
         }
     }
-    
+
     func test_100미만거리입력() {
         XCTAssertThrowsError(try distanceSettingUseCase.save(99)) { error in
             XCTAssertEqual(
@@ -37,7 +37,7 @@ final class DistanceSettingTest: XCTestCase {
             )
         }
     }
-    
+
     func test_100으로나누어떨어지지않는거리입력() {
         XCTAssertThrowsError(try distanceSettingUseCase.save(250)) { error in
             XCTAssertEqual(
@@ -46,7 +46,7 @@ final class DistanceSettingTest: XCTestCase {
             )
         }
     }
-    
+
     func test_거리저장성공() {
         XCTAssertNoThrow(try distanceSettingUseCase.save(100))
         XCTAssertNoThrow(try distanceSettingUseCase.save(200))

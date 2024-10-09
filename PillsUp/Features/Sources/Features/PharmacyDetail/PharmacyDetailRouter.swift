@@ -14,13 +14,13 @@ protocol PharmacyDetailInteractable: Interactable {
 }
 
 protocol PharmacyDetailViewControllable: ViewControllable {
-    
+
 }
 
-final class PharmacyDetailRouter: ViewableRouter<PharmacyDetailInteractable, PharmacyDetailViewControllable>, PharmacyDetailRouting {
-    
+final class PharmacyDetailRouter: ViewableRouter<PharmacyDetailInteractable, PharmacyDetailViewControllable> {
+
     private let navigation: UINavigationController
-    
+
     init(
         interactor: PharmacyDetailInteractable,
         viewController: PharmacyDetailViewControllable,
@@ -30,7 +30,9 @@ final class PharmacyDetailRouter: ViewableRouter<PharmacyDetailInteractable, Pha
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
-    
+}
+
+extension PharmacyDetailRouter: PharmacyDetailRouting {
     func pop() {
         detachChild(self)
         navigation.popViewController(animated: true)

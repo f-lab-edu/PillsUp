@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Junyoung on 9/5/24.
 //
@@ -13,13 +13,13 @@ public protocol DistanceSettingRepository {
 }
 
 final class MockAppDataRepository: DistanceSettingRepository {
-    
+
     var distance: Int = 500
-    
+
     func retrieve() -> Int {
         return distance
     }
-    
+
     func save(_ distance: Int) {
         self.distance = distance
     }
