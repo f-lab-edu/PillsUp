@@ -1,0 +1,16 @@
+#!/bin/sh
+
+# find . -name "*.swift" | while read file; do
+#   sed -i '' -e 's/[[:space:]]*$//' "$file"
+# done
+
+# # SwiftLint 실행
+# echo "Running SwiftLint..."
+# swiftlint
+
+# if [ $? != 0 ]; then
+#   echo "SwiftLint failed. Please fix the issues before committing."
+#   exit 1
+# fi
+
+echo "pre-commit test"

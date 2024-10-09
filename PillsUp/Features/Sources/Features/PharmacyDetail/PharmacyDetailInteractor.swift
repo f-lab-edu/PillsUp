@@ -17,7 +17,7 @@ protocol PharmacyDetailPresentable: Presentable {
     var listener: PharmacyDetailPresentableListener? { get set }
     var pharmacyDetail: PassthroughSubject<PharmacyDetail, Never> { get set }
     
-    func fetchDetailFailure()
+    func fetchDetailFailure() 
 }
 
 protocol PharmacyDetailListener: AnyObject { }
