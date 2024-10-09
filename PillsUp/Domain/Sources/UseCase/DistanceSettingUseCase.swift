@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Junyoung on 9/5/24.
 //
@@ -19,17 +19,17 @@ public protocol DistanceSettingUseCase {
 }
 
 public struct DistanceSetting: DistanceSettingUseCase {
-    
+
     private let distanceRepository: DistanceSettingRepository
-    
+
     public init(distanceRepository: DistanceSettingRepository) {
         self.distanceRepository = distanceRepository
     }
-    
+
     public func retrieve() -> Int {
         distanceRepository.retrieve()
     }
-    
+
     public func save(_ distance: Int) throws {
         if distance < 100 {
             throw DistanceSettingError.tooSmall

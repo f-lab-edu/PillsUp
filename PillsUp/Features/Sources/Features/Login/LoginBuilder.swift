@@ -37,11 +37,11 @@ final class LoginBuilder: Builder<LoginDependency>, LoginBuildable {
     ) -> LoginRouting {
         let component = LoginComponent(dependency: dependency)
         var viewController: LoginViewController!
-        
+
         DispatchQueue.main.sync {
             viewController = LoginViewController()
         }
-        
+
         let interactor = LoginInteractor(
             presenter: viewController,
             authenticationFacade: component.authenticationFacade

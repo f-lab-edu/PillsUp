@@ -13,12 +13,12 @@ public extension MoyaProvider {
         let configuration = URLSessionConfiguration.default
         configuration.timeoutIntervalForRequest = 10
         configuration.timeoutIntervalForResource = 10
-        
+
         let session = Session(configuration: configuration)
-        
+
         return MoyaProvider<T>(session: session)
     }
-    
+
     func request<T: Decodable>(_ target: Target) async throws -> T {
         return try await withCheckedThrowingContinuation { continuation in
             self.request(target) { result in
@@ -28,7 +28,7 @@ public extension MoyaProvider {
                         continuation.resume(throwing: MoyaError.statusCode(response))
                         return
                     }
-                    
+
                     do {
                         let jsonData = try response.data.xmlToBodyJSON()
                         let result = try JSONDecoder().decode(T.self, from: jsonData)
@@ -36,7 +36,7 @@ public extension MoyaProvider {
                     } catch {
                         continuation.resume(throwing: MoyaError.jsonMapping(response))
                     }
-                    
+
                 case .failure(let error):
                     continuation.resume(throwing: error)
                 }

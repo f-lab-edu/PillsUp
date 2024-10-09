@@ -16,22 +16,20 @@ protocol PharmacyDetailRouting: ViewableRouting {
 protocol PharmacyDetailPresentable: Presentable {
     var listener: PharmacyDetailPresentableListener? { get set }
     var pharmacyDetail: PassthroughSubject<PharmacyDetail, Never> { get set }
-    
+
     func fetchDetailFailure()
 }
 
-protocol PharmacyDetailListener: AnyObject {
-    // TODO: Declare methods the interactor can invoke to communicate with other RIBs.
-}
+protocol PharmacyDetailListener: AnyObject { }
 
-final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresentable>, PharmacyDetailInteractable, PharmacyDetailPresentableListener {
+final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresentable> {
 
     weak var router: PharmacyDetailRouting?
     weak var listener: PharmacyDetailListener?
-    
+
     private let hpid: String
     private let pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase
-    
+
     init(
         presenter: PharmacyDetailPresentable,
         pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase,
@@ -53,14 +51,22 @@ final class PharmacyDetailInteractor: PresentableInteractor<PharmacyDetailPresen
                 self.presenter.fetchDetailFailure()
             }
         }
-        
+
     }
 
     override func willResignActive() {
         super.willResignActive()
     }
-    
+
     func onTapBack() {
         router?.pop()
     }
+}
+
+extension PharmacyDetailInteractor: PharmacyDetailInteractable {
+
+}
+
+extension PharmacyDetailInteractor: PharmacyDetailPresentableListener {
+
 }

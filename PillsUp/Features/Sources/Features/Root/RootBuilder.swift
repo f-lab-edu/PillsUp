@@ -20,15 +20,15 @@ final class RootComponent: Component<RootDependency> {
     var distanceSettingUseCase: DistanceSettingUseCase {
         return dependency.distanceSettingUseCase
     }
-    
+
     var locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase {
         return dependency.locateNearbyPharmaciesUseCase
     }
-    
+
     var pharmacyDetailInfoUseCase: PharmacyDetailInfoUseCase {
         return dependency.pharmacyDetailInfoUseCase
     }
-    
+
     var authenticationFacade: AuthenticationFacade {
         return dependency.authenticationFacade
     }
@@ -53,10 +53,10 @@ public final class RootBuilder: Builder<RootDependency>, RootBuildable {
             presenter: viewController,
             authenticationFacade: component.authenticationFacade
         )
-        
+
         let mainBuilder = MainBuilder(dependency: component)
         let loginBuilder = LoginBuilder(dependency: component)
-        
+
         return RootRouter(
             interactor: interactor,
             viewController: viewController,

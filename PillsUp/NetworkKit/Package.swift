@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "NetworkKit",
-            targets: ["NetworkKit"]),
+            targets: ["NetworkKit"])
     ],
     dependencies: [
         .package(path: "../Domain")
@@ -23,6 +23,6 @@ let package = Package(
         ),
         .testTarget(
             name: "NetworkKitTests",
-            dependencies: ["NetworkKit"]),
+            dependencies: ["NetworkKit"])
     ]
 )

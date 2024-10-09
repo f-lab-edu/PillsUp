@@ -19,15 +19,15 @@ public protocol PharmacyDataSource {
 
 public final class DefaultPharmacyDataSource: PharmacyDataSource {
     private let provider: MoyaProvider<PharmacyType>
-    
+
     public init() {
         self.provider = MoyaProvider<PharmacyType>.plain()
     }
-    
+
     public func getNearbyPlaces(_ request: PharmacyRequestDTO) async throws -> PharmacyResoponseDTO {
         return try await provider.request(.getNearbyPlaces(request))
     }
-    
+
     public func getDetail(_ hpid: String) async throws -> PharmacyDetailResponseDTO {
         return try await provider.request(.getDetail(hpid))
     }
@@ -42,7 +42,7 @@ extension PharmacyType: TargetType {
     var baseURL: URL {
         let baseURL = Configuration.retrieve(.baseURL)
         let serviceKey = Configuration.retrieve(.serviceKey)
-        
+
         switch self {
         case .getNearbyPlaces(let request):
             return URL(
@@ -54,26 +54,26 @@ extension PharmacyType: TargetType {
             )!
         }
     }
-    
+
     var path: String {
         switch self {
         case .getNearbyPlaces, .getDetail:
             return ""
         }
     }
-    
+
     var method: Moya.Method {
         return .get
     }
-    
+
     var task: Moya.Task {
         switch self {
         case .getNearbyPlaces, .getDetail:
             return .requestPlain
-            
+
         }
     }
-    
+
     var headers: [String: String]? {
         return nil
     }

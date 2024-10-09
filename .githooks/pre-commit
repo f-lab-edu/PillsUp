@@ -1,0 +1,27 @@
+#!/bin/sh
+
+find . -name "*.swift" | while read file; do
+  # 파일 끝의 불필요한 공백 제거
+  sed -i '' -e 's/[[:space:]]*$//' "$file"
+  
+  # 컬렉션 리터럴의 마지막 콤마 제거
+  sed -i '' -E 's/,\s*([\}\]])/\1/g' "$file"
+  
+  # 파일 끝에 정확히 하나의 개행만 남기기
+  if [ "$(tail -c 1 "$file")" != "" ]; then
+    echo "" >> "$file"
+  fi
+
+  # 여러 개의 개행이 있을 경우, 정확히 하나로 줄이기
+  sed -i '' -e :a -e '/^\n*$/{$d;N;};/\n$/ba' "$file"
+
+done
+
+# SwiftLint 실행
+echo "Running SwiftLint..."
+swiftlint
+
+if [ $? != 0 ]; then
+  echo "SwiftLint failed. Please fix the issues before committing."
+  exit 1
+fi

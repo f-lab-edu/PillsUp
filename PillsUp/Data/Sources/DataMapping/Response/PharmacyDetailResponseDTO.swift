@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Junyoung on 9/26/24.
 //
@@ -47,7 +47,7 @@ extension PharmacyDetailResponseDTO {
         guard let item = self.items.first else {
             return nil
         }
-        
+
         return PharmacyDetail(
             dutyAddr: item.dutyAddr,
             dutyName: item.dutyName,

@@ -23,16 +23,16 @@ protocol MainPresentable: Presentable {
 }
 
 protocol MainListener: AnyObject {
-    
+
 }
 
-final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable  {
+final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteractable {
 
     weak var router: MainRouting?
     weak var listener: MainListener?
     private let distanceUseCase: DistanceSettingUseCase
     private let locateNearbyPharmaciesUseCase: LocateNearbyPharmaciesUseCase
-    
+
     init(
         presenter: MainPresentable,
         distanceUseCase: DistanceSettingUseCase,
@@ -40,9 +40,9 @@ final class MainInteractor: PresentableInteractor<MainPresentable>, MainInteract
     ) {
         self.distanceUseCase = distanceUseCase
         self.locateNearbyPharmaciesUseCase = locateNearbyPharmaciesUseCase
-        
+
         super.init(presenter: presenter)
-        
+
         presenter.listener = self
         presenter.fetchPharmacyListener = self
         presenter.saveDistanceListener = self
@@ -69,9 +69,9 @@ extension MainInteractor: MainFetchPharmacyListener {
         Task {
             let distance = Double(distanceUseCase.retrieve()) / 1000.0
             let pharmacy = try await locateNearbyPharmaciesUseCase.retrieve(location)
-            
+
             let result = pharmacy.items.filter { Double($0.distance) ?? 0 <= distance }
-            
+
             presenter.pharmacySubject.send(pharmacy.items)
         }
     }

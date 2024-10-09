@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Junyoung on 10/3/24.
 //
@@ -14,11 +14,11 @@ public protocol AuthenticationFacade {
 }
 
 public final class AppleAuthentication: AuthenticationFacade {
-    
+
     private let checkUseCase: CheckAuthenticationUseCase
     private let registerUseCase: RegisterAuthenticationUseCase
     private let removeUseCase: RemoveAuthenticationUseCase
-    
+
     public init(
         checkUseCase: CheckAuthenticationUseCase,
         registerUseCase: RegisterAuthenticationUseCase,
@@ -28,15 +28,15 @@ public final class AppleAuthentication: AuthenticationFacade {
         self.registerUseCase = registerUseCase
         self.removeUseCase = removeUseCase
     }
-    
+
     public func check() async throws -> Bool {
         try await checkUseCase.exectue()
     }
-    
+
     public func register(data: String) async throws {
         try await registerUseCase.execute(data: data)
     }
-    
+
     public func remove() async throws {
         try await removeUseCase.execute()
     }

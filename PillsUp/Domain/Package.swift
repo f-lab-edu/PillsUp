@@ -9,7 +9,7 @@ let package = Package(
     products: [
         .library(
             name: "Domain",
-            targets: ["Domain"]),
+            targets: ["Domain"])
     ],
     dependencies: [
         .package(path: "../Shared")
@@ -21,6 +21,6 @@ let package = Package(
         ),
         .testTarget(
             name: "DomainTests",
-            dependencies: ["Domain"]),
+            dependencies: ["Domain"])
     ]
 )
