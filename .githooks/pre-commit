@@ -2,6 +2,9 @@
 
 find . -name "*.swift" | while read file; do
   sed -i '' -e 's/[[:space:]]*$//' "$file"
+  if [ -n "$(tail -c 1 "$file")" ]; then
+    echo "" >> "$file"
+  fi
 done
 
 # SwiftLint 실행
