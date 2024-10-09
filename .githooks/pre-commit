@@ -1,6 +1,10 @@
 #!/bin/sh
 
-# # SwiftLint 실행
+find . -name "*.swift" | while read file; do
+  sed -i '' -e 's/[[:space:]]*$//' "$file"
+done
+
+# SwiftLint 실행
 echo "Running SwiftLint..."
 swiftlint
 
@@ -65,6 +69,6 @@ fi
 #     echo "    📌 $MESSAGE: - $DESCRIPTION\n"
 #   done <<< "$RESULT"
 
-#   echo "\n 🚑  커밋실패!! Swiftlint rule에 맞게 코드를 변경해주세요:)\n"
+#   printf "\n 🚑  커밋실패!! Swiftlint rule에 맞게 코드를 변경해주세요:)\n"
 #   exit 1
 # fi
