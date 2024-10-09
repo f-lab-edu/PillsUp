@@ -11,10 +11,10 @@
 echo "Running SwiftLint..."
 swiftlint
 
-# if [ $? != 0 ]; then
-#   echo "SwiftLint failed. Please fix the issues before committing."
-#   exit 1
-# fi
+if [ $? != 0 ]; then
+  echo "SwiftLint failed. Please fix the issues before committing."
+  exit 1
+fi
 
 # LINT=$(which swiftlint)
 
@@ -45,12 +45,9 @@ swiftlint
 # fi
 
 # # lint rule 정의 파일
-RESULT=$($LINT lint --quiet --config .swiftlint.yml)
 
-if [ "$RESULT" == '' ]; then
-	echo "✨  SwiftLint 적용을 완료했습니다!! 고생하셨습니다:)\n"
-else
-	echo ""
+if [ $? != 0 ]; then
+echo ""
 	echo "✔ SwiftLint Failed 아래 내용을 확인해주세요:\n"
   while read -r line; do
     FILEPATH=$(echo $line | cut -d : -f 1)
@@ -74,4 +71,6 @@ else
 
   printf "\n 🚑  커밋실패!! Swiftlint rule에 맞게 코드를 변경해주세요:)\n"
   exit 1
+else
+	echo "✨  SwiftLint 적용을 완료했습니다!! 고생하셨습니다:)\n"
 fi
