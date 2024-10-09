@@ -7,8 +7,6 @@
 #   fi
 # done
 
-swiftlint autocorrect
-
 # SwiftLint 실행
 echo "Running SwiftLint..."
 swiftlint
