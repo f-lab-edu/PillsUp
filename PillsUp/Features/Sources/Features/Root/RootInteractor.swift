@@ -17,20 +17,20 @@ public protocol RootRouting: ViewableRouting {
 
 public protocol RootPresentable: Presentable {
     var listener: RootPresentableListener? { get set }
-    
+
 }
 
 public protocol RootListener: AnyObject {
-    
+
 }
 
 public final class RootInteractor: PresentableInteractor<RootPresentable>, RootInteractable {
 
     weak var router: RootRouting?
     weak var listener: RootListener?
-    
+
     private let authenticationFacade: AuthenticationFacade
-    
+
     init(
         presenter: RootPresentable,
         authenticationFacade: AuthenticationFacade
@@ -46,7 +46,7 @@ public final class RootInteractor: PresentableInteractor<RootPresentable>, RootI
 
     public override func willResignActive() {
         super.willResignActive()
-        
+
     }
 }
 

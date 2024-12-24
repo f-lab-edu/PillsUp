@@ -42,15 +42,15 @@ final class PharmacyDetailBuilder: Builder<PharmacyDetailDependency>, PharmacyDe
     ) -> PharmacyDetailRouting {
         let component = PharmacyDetailComponent(dependency: dependency)
         let viewController = PharmacyDetailViewController()
-        
+
         let interactor = PharmacyDetailInteractor(
             presenter: viewController,
             pharmacyDetailInfoUseCase: component.pharmacyDetailInfoUseCase,
             hpid: hpid
         )
-        
+
         interactor.listener = listener
-        
+
         return PharmacyDetailRouter(
             interactor: interactor,
             viewController: viewController,

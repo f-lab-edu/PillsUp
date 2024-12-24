@@ -5,6 +5,7 @@
 //  Created by Junyoung on 9/23/24.
 //
 
+#if canImport(UIKit)
 import UIKit
 
 public extension UITableViewCell {
@@ -12,3 +13,4 @@ public extension UITableViewCell {
         return String(describing: self)
     }
 }
+#endif

@@ -13,11 +13,11 @@ public enum ConfigurationKey: String {
 }
 
 public struct Configuration {
-    
+
     public static func retrieve(_ key: ConfigurationKey) -> String {
         guard let path = Bundle.main.path(forResource: "Configuration", ofType: "plist") else { return "" }
         guard let plistData = NSDictionary(contentsOfFile: path) as? [String: String] else { return "" }
         return plistData[key.rawValue] ?? ""
-        
+
     }
 }

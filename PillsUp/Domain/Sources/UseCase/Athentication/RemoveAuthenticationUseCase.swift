@@ -12,13 +12,13 @@ public protocol RemoveAuthenticationUseCase {
 }
 
 public final class RemoveAppleAuthentication: RemoveAuthenticationUseCase {
-    
+
     private let repository: AuthenticationManagerRepository
-    
+
     public init(repository: AuthenticationManagerRepository) {
         self.repository = repository
     }
-    
+
     public func execute() async throws {
         try await repository.delete()
     }

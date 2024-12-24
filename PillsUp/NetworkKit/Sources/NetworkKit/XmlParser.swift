@@ -9,16 +9,16 @@ import Foundation
 
 final class XmlParser: NSObject, XMLParserDelegate {
     typealias ItemTypes = [String: Any]
-    
+
     private var currentElement = ""
     private var currentValue: String?
-    
+
     private var currentItem: ItemTypes?
     private var items = [ItemTypes]()
-    
+
     private var isParsingBody = false
     private var bodyData = ItemTypes()
-    
+
     // XMLParser의 델리게이트 메서드 호출 시작
     func parse(data: Data) -> [String: Any] {
         let parser = XMLParser(data: data)
@@ -26,7 +26,7 @@ final class XmlParser: NSObject, XMLParserDelegate {
         parser.parse()
         return bodyData
     }
-    
+
     // XML 태그 시작
     func parser(
         _ parser: XMLParser,
@@ -37,18 +37,18 @@ final class XmlParser: NSObject, XMLParserDelegate {
     ) {
         currentElement = elementName
         currentValue = ""
-        
+
         // body 태그가 시작되면 파싱을 시작
         if elementName == "body" {
             isParsingBody = true
         }
-        
+
         // item 태그가 시작되면 새로운 아이템 초기화
         if isParsingBody && elementName == "item" {
             currentItem = [:]
         }
     }
-    
+
     // XML 태그 내의 값
     func parser(
         _ parser: XMLParser,
@@ -56,7 +56,7 @@ final class XmlParser: NSObject, XMLParserDelegate {
     ) {
         currentValue? += string.trimmingCharacters(in: .whitespacesAndNewlines)
     }
-    
+
     // XML 태그 끝
     func parser(
         _ parser: XMLParser,
@@ -81,13 +81,13 @@ final class XmlParser: NSObject, XMLParserDelegate {
                     bodyData[elementName] = value
                 }
             }
-            
+
             // items가 끝날 때 items 배열을 저장
             if elementName == "items" {
                 bodyData["items"] = items
                 items = []  // 다음 items를 위해 초기화
             }
-            
+
             // body 태그가 끝나면 파싱을 종료
             if elementName == "body" {
                 isParsingBody = false
@@ -100,9 +100,9 @@ extension Data {
     func xmlToBodyJSON() throws -> Data {
         let parser = XmlParser()
         let dictionary = parser.parse(data: self)
-        
+
         let jsonData = try JSONSerialization.data(withJSONObject: dictionary, options: [])
-        
+
         return jsonData
     }
 }

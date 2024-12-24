@@ -12,7 +12,7 @@ public struct PharmacyDetailResponse {
     public let numOfRows: String?
     public let pageNo: String?
     public let totalCount: String?
-    
+
     public init(
         items: [PharmacyDetail],
         numOfRows: String?,
@@ -35,7 +35,7 @@ public struct PharmacyDetail {
     public let postCode: String
     public let lat: String
     public let lng: String
-    
+
     public init(
         dutyAddr: String,
         dutyName: String,

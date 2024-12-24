@@ -1,6 +1,6 @@
 //
 //  File.swift
-//  
+//
 //
 //  Created by Junyoung on 9/14/24.
 //
@@ -16,4 +16,3 @@ public extension Encodable {
         return dictionary
     }
 }
-

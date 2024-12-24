@@ -16,7 +16,7 @@ public enum Weekday {
     case saturday
     case sunday
     case holiday
-    
+
     public var toString: String {
         switch self {
         case .monday:
@@ -43,16 +43,16 @@ public struct DutyTime {
     public let weekDay: Weekday
     public let start: String?
     public let end: String?
-    
+
     public init(weekDay: Weekday, start: String?, end: String?) {
         self.weekDay = weekDay
         self.start = start
         self.end = end
     }
-    
+
     public func displayTime() -> String {
         guard let start = start, let end = end else { return "Closed"}
-        
+
         return "\(start.prefix(2)):\(start.suffix(2)) ~ \(end.prefix(2)):\(end.suffix(2))"
     }
 }

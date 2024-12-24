@@ -18,9 +18,9 @@ protocol LoginViewControllable: ViewControllable {
 }
 
 final class LoginRouter: ViewableRouter<LoginInteractable, LoginViewControllable>, LoginRouting {
-    
+
     private let navigation: UINavigationController
-    
+
     init(
         interactor: LoginInteractable,
         viewController: LoginViewControllable,
@@ -30,12 +30,12 @@ final class LoginRouter: ViewableRouter<LoginInteractable, LoginViewControllable
         super.init(interactor: interactor, viewController: viewController)
         interactor.router = self
     }
-    
+
     func loginSuccess() {
         detachChild(self)
         DispatchQueue.main.async {
             self.navigation.popViewController(animated: false)
         }
     }
-    
+
 }

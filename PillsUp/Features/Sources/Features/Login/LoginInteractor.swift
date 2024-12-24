@@ -8,7 +8,7 @@
 import Domain
 import ModernRIBs
 
-protocol LoginRouting: ViewableRouting { 
+protocol LoginRouting: ViewableRouting {
     func loginSuccess()
 }
 
@@ -22,7 +22,7 @@ final class LoginInteractor: PresentableInteractor<LoginPresentable>, LoginInter
 
     weak var router: LoginRouting?
     weak var listener: LoginListener?
-    
+
     private let authenticationFacade: AuthenticationFacade
 
     init(

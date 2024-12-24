@@ -27,21 +27,21 @@ final class AppComponent: Component<EmptyDependency>, AppDependency {
         self.distanceSettingUseCase = DistanceSetting(
             distanceRepository: DefaultDistanceSettingRepostitory()
         )
-        
+
         self.locateNearbyPharmaciesUseCase = LocateNearbyPharmacies(
             repository: DefaultPharmacyRepository(
                 dataSource: DefaultPharmacyDataSource()
             )
         )
-        
+
         self.pharmacyDetailInfoUseCase = PharmacyDetailInfo(
             repository: DefaultPharmacyRepository(
                 dataSource: DefaultPharmacyDataSource()
             )
         )
-        
+
         let authenticationManagerRepository = AppleLoginAthenticationRepository()
-        
+
         self.authenticationFacade = AppleAuthentication(
             checkUseCase: CheckAppleAuthenticationUseCase(repository: authenticationManagerRepository),
             registerUseCase: RegisterAppleAuthentication(repository: authenticationManagerRepository),

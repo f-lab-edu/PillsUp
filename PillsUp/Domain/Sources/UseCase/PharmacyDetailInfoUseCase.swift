@@ -13,11 +13,11 @@ public protocol PharmacyDetailInfoUseCase {
 
 public struct PharmacyDetailInfo: PharmacyDetailInfoUseCase {
     private let repository: PharmacyRepository
-    
+
     public init(repository: PharmacyRepository) {
         self.repository = repository
     }
-    
+
     public func retrieve(_ hpid: String) async throws -> PharmacyDetail? {
         try await repository.retrievePharmacyDetail(hpid)
     }
